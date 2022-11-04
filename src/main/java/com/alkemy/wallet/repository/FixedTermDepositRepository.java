@@ -1,4 +1,4 @@
-package com.alkemy.wallet.controller.repository;
+package com.alkemy.wallet.repository;
 
 public interface FixedTermDepositRepository {
 
