@@ -12,7 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
@@ -25,7 +25,7 @@ public class UserEntity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long idUser;
+  private Long userId;
 
   @Column(name = "FIRST_NAME", nullable = false)
   private String firstName;
