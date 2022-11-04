@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Roles")
+@Table(name = "ROLES")
 @Getter
 @Setter
 public class Role {
