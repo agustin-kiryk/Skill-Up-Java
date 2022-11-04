@@ -22,7 +22,7 @@ public class Role {
     @Column(name ="NAME", nullable = false, unique = true)
     private RoleName name;
 
-    @Column(name = "DESCRIPTION", length = 50,)
+    @Column(name = "DESCRIPTION", length = 50)
     private String description;
 
     @CreationTimestamp
