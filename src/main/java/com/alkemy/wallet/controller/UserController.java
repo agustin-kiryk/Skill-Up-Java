@@ -23,8 +23,5 @@ public class UserController {
   }
 
 
-  @GetMapping("/account/balance"){
-
-
   }
 }

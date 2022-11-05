@@ -27,7 +27,7 @@ public class UserMap {
     userDto.setEmail(entity.getEmail());
 
     userDto.setRole(roleMap.roleEntity2Dto(entity.getRole()));
-    userDto.setAccounts(accountMap.accountEntityList2DtoList(entity.getAccounts()));
+    userDto.setAccounts(accountMap.accountEntityList2BasicDto(entity.getAccounts()));
 
     return userDto;
   }

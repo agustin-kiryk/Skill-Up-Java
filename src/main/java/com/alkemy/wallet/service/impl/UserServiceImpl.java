@@ -19,6 +19,12 @@ public class UserServiceImpl implements IUserService {
   private UserMap userMap;
 
   @Override
+  public UserDto findById(Long id){
+
+    return userMap.userEntity2Dto(userRepository.findByUserId(id));
+  }
+
+  @Override
   public List<UserDto> listAllUsers() {
 
     return userMap.userEntityList2DtoList(userRepository.findAll());
@@ -41,6 +47,9 @@ public class UserServiceImpl implements IUserService {
     } catch (Exception e) {
       throw new Exception(e.getMessage());
     }
+  }
+
+
   }
 
 
