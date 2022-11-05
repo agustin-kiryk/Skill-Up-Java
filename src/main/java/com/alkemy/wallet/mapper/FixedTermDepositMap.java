@@ -5,11 +5,6 @@ import com.alkemy.wallet.entity.FixedTermDepositEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alkemy.wallet.dto.FixedTermDepositDto;
-import com.alkemy.wallet.entity.FixedTermDepositEntity;
-import org.springframework.stereotype.Component;
-
-@Component
 public class FixedTermDepositMap {
 
   public FixedTermDepositBasicDto entity2BasicDto(FixedTermDepositEntity fixedTermDeposit) {
@@ -36,30 +31,4 @@ public class FixedTermDepositMap {
     return basicDtos;
   }
 
-  public FixedTermDepositEntity fixedTermDepositDto2Entity(FixedTermDepositDto dto) {
-
-    FixedTermDepositEntity entity = new FixedTermDepositEntity();
-
-    entity.setAmount(dto.getAmount());
-    entity.setInterest(dto.getInterest());
-    entity.setClosingDate(dto.getClosingDate());
-    entity.setCreationDate(dto.getCreationDate());
-    entity.setUserId(dto.getUserId());
-    entity.setAccountId(dto.getAccountId());
-    return entity;
-  }
-
-  public FixedTermDepositDto fixedTermDepositEntity2Dto(FixedTermDepositEntity entity) {
-
-    FixedTermDepositDto fixedTermDepositDto = new FixedTermDepositDto();
-
-    fixedTermDepositDto.setId(entity.getId());
-    fixedTermDepositDto.setAccountId(entity.getAccountId());
-    fixedTermDepositDto.setUserId(entity.getUserId());
-    fixedTermDepositDto.setAmount(entity.getAmount());
-    fixedTermDepositDto.setClosingDate(entity.getClosingDate());
-    fixedTermDepositDto.setCreationDate(entity.getCreationDate());
-    fixedTermDepositDto.setInterest(entity.getInterest());
-    return fixedTermDepositDto;
-  }
 }
