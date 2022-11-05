@@ -13,6 +13,10 @@ public class AccountServiceImpl implements IAccountService {
   private ITransactionService transactionService;
 
 
+
+  //The total balance of an account its the remainder of all the incomes minus all the payments.
+  //So this method gets all the incomes by a query and calculates the total, same with the payments.
+  //At the end the subtraction is done, giving you the total balance of the account;
   @Override
   public double calculateBalance(Long accountId) {
 
