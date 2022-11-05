@@ -38,7 +38,7 @@ public class TransactionEntity {
   private UserEntity userEntity;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "ACCOUND_ID")
+  @JoinColumn(name = "ACCOUNT_ID")
   private AccountEntity accountEntity;
 
   @CreationTimestamp

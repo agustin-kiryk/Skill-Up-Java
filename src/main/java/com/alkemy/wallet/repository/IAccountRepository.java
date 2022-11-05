@@ -10,6 +10,7 @@ import java.util.List;
   public interface IAccountRepository extends JpaRepository<AccountEntity, Long>{
 
     <user> List<AccountEntity> findAllByUser(user user);
+    AccountEntity findByAccountId(Long accountId);
 
   }
 

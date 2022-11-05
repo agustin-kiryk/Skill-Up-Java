@@ -65,7 +65,7 @@ public class AccountEntity {
           CascadeType.DETACH,
           CascadeType.MERGE,
           CascadeType.REFRESH,
-          CascadeType.PERSIST)
+          CascadeType.PERSIST})
   private List<FixedTermDepositEntity> fixedTermDeposits;
 
 }
