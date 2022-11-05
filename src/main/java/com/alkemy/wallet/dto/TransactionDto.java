@@ -1,19 +1,16 @@
 package com.alkemy.wallet.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import java.io.Serializable;
+import com.alkemy.wallet.enumeration.TypeTransaction;
 import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
-  @Data
-  public class TransactionDto implements Serializable {
-
-    private Long id;
-    private Double amount;
-    private String typeTransaction;
-    private String descript;
-    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
-    private Date transactionDate;
-    private Long accountId;
-  }
-
+@Getter
+@Setter
+public class TransactionDto {
+  private Long id;
+  private Double amount;
+  private TypeTransaction typeTransaction;
+  private String description;
+  private Date transactionDate;
+}

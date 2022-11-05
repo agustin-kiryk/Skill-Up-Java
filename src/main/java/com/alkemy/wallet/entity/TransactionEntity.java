@@ -1,5 +1,6 @@
 package com.alkemy.wallet.entity;
 
+import com.alkemy.wallet.enumeration.TypeTransaction;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,10 +26,12 @@ public class TransactionEntity {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "ID")
   private Long id;
-  @Column(name = "AMOUNT")
+  @Column(name = "AMOUNT", nullable = false)
   private Double amount;
-  @Column(name = "TYPE_TRANSACTION")
+  @Column(name = "TYPE_TRANSACTION", nullable = false)
   private TypeTransaction typeTransaction;
+  @Column(name = "DESCRIPTION")
+  private String description;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "USER_ID")
@@ -39,6 +42,7 @@ public class TransactionEntity {
   private AccountEntity accountEntity;
 
   @CreationTimestamp
+  @Column(name = "TRANSACTION_DATE")
   private Date transactionDate;
 
 }

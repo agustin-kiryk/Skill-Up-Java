@@ -1,4 +1,4 @@
-package com.alkemy.wallet.entity;
+package com.alkemy.wallet.enumeration;
 
 public enum RoleName {
     USER,
