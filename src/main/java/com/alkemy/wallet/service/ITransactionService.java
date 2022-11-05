@@ -1,5 +1,10 @@
 package com.alkemy.wallet.service;
 
-public interface ITransactionService {
+import com.alkemy.wallet.dto.TransactionDto;
 
-}
+  public interface ITransactionService {
+
+    public TransactionDto save(TransactionDto transaction);
+
+  }
+

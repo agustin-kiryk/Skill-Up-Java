@@ -3,6 +3,7 @@ package com.alkemy.wallet.entity;
 import java.time.Instant;
 import java.util.Currency;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,16 +14,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.transaction.Transaction;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "ACCOUNT")
+@Table(name = "ACCOUNTS")
 @SQLDelete(sql = "UPDATE accounts SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 
@@ -59,4 +63,7 @@ public class AccountEntity {
 
   private UserEntity user;
 
+  @OneToMany(fetch = FetchType.LAZY)
+  @ToString.Exclude
+  private List<Transaction> transactions;
 }
