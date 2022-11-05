@@ -1,15 +1,16 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.TransactionEntity;
-import com.alkemy.wallet.repository.TransactionRepository;
 import com.alkemy.wallet.service.IAccountService;
+import com.alkemy.wallet.service.ITransactionService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class AccountServiceImpl implements IAccountService {
 
   @Autowired
-  private TransactionRepository transactionRepository;
+  private ITransactionService transactionService;
 
 
   @Override
@@ -19,14 +20,14 @@ public class AccountServiceImpl implements IAccountService {
     double totalIncome = 0;
     double balance = totalIncome - totalPayment;
 
-    List<TransactionEntity> payments = transactionRepository.findByAccountIdAndType(accountId,
+    List<TransactionDto> payments = transactionService.getByAccountAndType(accountId,
         "payment");
-    List<TransactionEntity> incomes = transactionRepository.findByAccountIdAndType(accountId,
+    List<TransactionDto> incomes = transactionService.getByAccountAndType(accountId,
         "income");
 
     for (int i = 0; i < payments.size(); i++) {
 
-      TransactionEntity payment;
+      TransactionDto payment;
       payment = payments.get(i);
 
       totalPayment = totalPayment + payment.getAmount();
@@ -35,7 +36,7 @@ public class AccountServiceImpl implements IAccountService {
 
     for (int i = 0; i < incomes.size(); i++) {
 
-      TransactionEntity income;
+      TransactionDto income;
       income = incomes.get(i);
 
       totalIncome = totalIncome + income.getAmount();
