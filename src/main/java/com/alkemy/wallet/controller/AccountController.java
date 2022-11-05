@@ -27,17 +27,7 @@ public class AccountController {
   @GetMapping("/balance")
   public ResponseEntity<List<AccountBasicDto>> getBalance(@Valid @PathVariable Long id) {
 
-    UserDto user = userService.findById(id);
-    List<AccountBasicDto> accounts = user.getAccounts();
-
-    for (int i = 0; i < accounts.size(); i++) {
-
-      AccountBasicDto account;
-      account = accounts.get(i);
-      account.setBalance(accountService.calculateBalance(account.getAccountId());
-
-    }
-
+    List<AccountBasicDto> accounts = userService.getAccountsBalance(id);
     return ResponseEntity.ok(accounts);
   }
 
