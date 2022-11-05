@@ -13,7 +13,7 @@ public class AccountMap {
 
     AccountBasicDto account = new AccountBasicDto();
 
-    account.setAccountId(entity.getAccountId());
+    account.setAccountId(entity.getId());
     account.setCurrency(entity.getCurrency());
     account.setBalance(0);
 

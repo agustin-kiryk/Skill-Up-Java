@@ -2,6 +2,7 @@ package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.TransactionEntity;
+import com.alkemy.wallet.enumeration.Currency;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.ITransactionService;
 import java.util.List;
@@ -11,7 +12,6 @@ public class AccountServiceImpl implements IAccountService {
 
   @Autowired
   private ITransactionService transactionService;
-
 
 
   //The total balance of an account its the remainder of all the incomes minus all the payments.
@@ -24,10 +24,8 @@ public class AccountServiceImpl implements IAccountService {
     double totalIncome = 0;
     double balance = totalIncome - totalPayment;
 
-    List<TransactionDto> payments = transactionService.getByAccountAndType(accountId,
-        "payment");
-    List<TransactionDto> incomes = transactionService.getByAccountAndType(accountId,
-        "income");
+    List<TransactionDto> payments = transactionService.getByAccountAndType(accountId, "PAYMENT");
+    List<TransactionDto> incomes = transactionService.getByAccountAndType(accountId, "INCOME");
 
     for (int i = 0; i < payments.size(); i++) {
 

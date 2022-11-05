@@ -1,7 +1,7 @@
 package com.alkemy.wallet.entity;
 
+import com.alkemy.wallet.enumeration.Currency;
 import java.time.Instant;
-import java.util.Currency;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +33,7 @@ public class AccountEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID_ACCOUNT", nullable = false)
-  private Integer id;
+  private Long id;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "CURRENCY", nullable = false)

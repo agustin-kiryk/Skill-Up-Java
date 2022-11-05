@@ -2,6 +2,7 @@ package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.TransactionEntity;
+import com.alkemy.wallet.enumeration.TypeTransaction;
 import com.alkemy.wallet.mapper.TransactionMap;
 import com.alkemy.wallet.repository.TransactionRepository;
 import com.alkemy.wallet.service.ITransactionService;
@@ -22,7 +23,7 @@ public class TransactionsServiceImpl implements ITransactionService {
   public List<TransactionDto> getByAccountAndType(Long accountId, String type) {
 
     List<TransactionEntity> entities = transactionRepository.findByAccountIdAndType(accountId,
-        type);
+        TypeTransaction.valueOf(type));
 
     List<TransactionDto> dtoList = transactionMap.transactionEntityList2DtoList(entities);
 
