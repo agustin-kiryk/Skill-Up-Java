@@ -26,7 +26,7 @@ public class TransactionEntity {
   @Column(name = "ID")
   private Long id;
   @Column(name = "AMOUNT")
-  private Double amount;
+  private double amount;
   @Column(name = "TYPE_TRANSACTION")
   private TypeTransaction typeTransaction;
 
