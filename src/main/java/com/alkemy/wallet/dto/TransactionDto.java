@@ -1,22 +1,17 @@
 package com.alkemy.wallet.dto;
 
+import com.alkemy.wallet.enumeration.TypeTransaction;
 import java.util.Date;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class TransactionDto {
 
-  private Long userId;
-
-  private Long accountId;
-
-  private String type;
-
-  private double amount;
-
+  private Long id;
+  private Double amount;
+  private TypeTransaction typeTransaction;
   private String description;
-
   private Date transactionDate;
-
-
 }
