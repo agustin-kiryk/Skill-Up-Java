@@ -1,9 +1,9 @@
 package com.alkemy.wallet.enumeration;
 
-public class Currency {
-  public enum currency {
+
+  public enum Currency {
     ARS,
     USD
   }
 
-}
+

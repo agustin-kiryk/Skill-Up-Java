@@ -22,8 +22,8 @@ public class FixedTermDepositEntity {
     @JoinColumn(name = "USER_ID")
     private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "ACCOUNT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ACCOUNT_ID", nullable = false)
     private Long accountId;
 
     @Column(name = "INTEREST", nullable = false)
