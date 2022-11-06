@@ -57,4 +57,7 @@ public class AccountMap {
 
   }
 
+  public List<AccountEntity> accountDtoList2EntityList(List<AccountBasicDto> accounts) {
+    return null;
+  }
 }

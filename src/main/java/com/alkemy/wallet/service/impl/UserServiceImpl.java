@@ -4,7 +4,7 @@ package com.alkemy.wallet.service.impl;
 import com.alkemy.wallet.dto.AccountBasicDto;
 import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.mapper.UserMap;
-import com.alkemy.wallet.repository.UserRepository;
+import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IUserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements IUserService {
 
   @Autowired
-  private UserRepository userRepository;
+  private IUserRepository IUserRepository;
 
   @Autowired
   AccountServiceImpl accountService;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements IUserService {
   @Override
   public UserDto findById(Long id){
 
-    return userMap.userEntity2Dto(userRepository.findByUserId(id));
+    return userMap.userEntity2Dto(IUserRepository.findByUserId(id));
   }
 
   @Override
@@ -38,7 +38,7 @@ public class UserServiceImpl implements IUserService {
 
       AccountBasicDto account;
       account = accounts.get(i);
-      account.setBalance(accountService.calculateBalance(account.getAccountId());
+      account.setBalance(accountService.calculateBalance(account.getAccountId()));
 
     }
     return accounts;
@@ -47,7 +47,7 @@ public class UserServiceImpl implements IUserService {
   @Override
   public List<UserDto> listAllUsers() {
 
-    return userMap.userEntityList2DtoList(userRepository.findAll());
+    return userMap.userEntityList2DtoList(IUserRepository.findAll());
   }
 
   @Override
@@ -58,8 +58,8 @@ public class UserServiceImpl implements IUserService {
   @Override
   public boolean deleteById(Long id) throws Exception {
     try {
-      if (userRepository.existsById(id)) {
-        userRepository.deleteById(id);
+      if (IUserRepository.existsById(id)) {
+        IUserRepository.deleteById(id);
         return true;
       } else {
         throw new Exception();

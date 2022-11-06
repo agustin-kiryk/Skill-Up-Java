@@ -2,7 +2,7 @@ package com.alkemy.wallet.mapper;
 
 import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.entity.UserEntity;
-import com.alkemy.wallet.repository.UserRepository;
+import com.alkemy.wallet.repository.IUserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserMap {
 
   @Autowired
-  private UserRepository userRepository;
+  private IUserRepository IUserRepository;
 
   @Autowired
   private AccountMap accountMap;
@@ -26,7 +26,7 @@ public class UserMap {
     userDto.setLastName(entity.getLastName());
     userDto.setEmail(entity.getEmail());
 
-    userDto.setRole(roleMap.roleEntity2Dto(entity.getRole()));
+    userDto.setRole(roleMap.roleEntity2Dto(entity.getRole()));//TODO: HACER METODO
     userDto.setAccounts(accountMap.accountEntityList2BasicDto(entity.getAccounts()));
 
     return userDto;
@@ -40,7 +40,7 @@ public class UserMap {
     userEntity.setFirstName(dto.getFirstName());
     userEntity.setLastName(dto.getLastName());
     userEntity.setEmail(dto.getEmail());
-    userEntity.setAccounts(accountMap.accountDtoList2EntityList(dto.getAccounts()));
+    userEntity.setAccounts(accountMap.accountDtoList2EntityList(dto.getAccounts()));// TODO: HACER METODO
     userEntity.setRole(roleMap.roleDto2Entity(dto.getRole()));
 
     return userEntity;
