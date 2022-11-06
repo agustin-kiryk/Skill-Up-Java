@@ -61,8 +61,6 @@ public class UserEntity implements Serializable {
           CascadeType.PERSIST
       })
 
-  private boolean deleted = Boolean.FALSE;
-
   private List<AccountEntity> accounts = new ArrayList<>();
 
   private void addAccount(AccountEntity account) {
@@ -74,6 +72,7 @@ public class UserEntity implements Serializable {
     accounts.remove(account);
 
   }
+  private boolean deleted = Boolean.FALSE;
 
   }
 

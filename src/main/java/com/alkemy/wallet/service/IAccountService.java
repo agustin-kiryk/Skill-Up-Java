@@ -1,6 +1,6 @@
 package com.alkemy.wallet.service;
 
-import com.alkemy.wallet.dto.AccountDTO;
+import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.dto.AccountBasicDto;
 import com.alkemy.wallet.entity.AccountEntity;
 
@@ -12,7 +12,7 @@ public interface IAccountService {
 
   double calculateBalance(Long accountId);
 
-  List<AccountDTO> findAllByUser(Long userId);
+  List<AccountDto> findAllByUser(Long userId);
 
   void updateBalance(Long accountId, Double amount);
 
