@@ -1,5 +1,5 @@
 package com.alkemy.wallet.controller;
 
-public class FixedTermDepositControler {
+public class TransactionController {
 
 }

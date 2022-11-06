@@ -3,20 +3,18 @@ package com.alkemy.wallet.auth.filter;
 
 import com.alkemy.wallet.auth.service.JwtUtils;
 import com.alkemy.wallet.auth.service.UserDetailsCustomService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
+import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -30,7 +28,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+      FilterChain filterChain)
       throws ServletException, IOException {
 
     final String authorizationHeader = request.getHeader("Authorization");
@@ -43,13 +42,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       username = jwtUtils.extractUsername(jwt);
     }
 
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
       UserDetails userDetails = this.userDetailsCustomService.loadUserByUsername(username);
 
       if (jwtUtils.validateToken(jwt, userDetails)) {
         UsernamePasswordAuthenticationToken authReq =
-            new UsernamePasswordAuthenticationToken(userDetails, null ,null);
+            new UsernamePasswordAuthenticationToken(userDetails, null, null);
         // Set auth in context
         SecurityContextHolder.getContext().setAuthentication(authReq);
       }

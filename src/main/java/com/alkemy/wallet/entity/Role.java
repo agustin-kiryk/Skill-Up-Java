@@ -1,5 +1,6 @@
 package com.alkemy.wallet.entity;
 
+import com.alkemy.wallet.enumeration.RoleName;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;

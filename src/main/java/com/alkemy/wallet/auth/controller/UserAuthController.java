@@ -1,6 +1,9 @@
 package com.alkemy.wallet.auth.controller;
 
 
+import com.alkemy.wallet.auth.dto.AuthenticationRequest;
+import com.alkemy.wallet.auth.dto.AuthenticationResponse;
+import com.alkemy.wallet.auth.dto.UserAuthDto;
 import com.alkemy.wallet.auth.service.JwtUtils;
 import com.alkemy.wallet.auth.service.UserDetailsCustomService;
 import javax.validation.Valid;
@@ -25,7 +28,8 @@ public class UserAuthController {
   private JwtUtils jwtTokenUtils;
 
   @Autowired
-  public UserAuthController(UserDetailsCustomService userDetailsServices, AuthenticationManager authenticationManager, JwtUtils jwtTokenUtils) {
+  public UserAuthController(UserDetailsCustomService userDetailsServices,
+      AuthenticationManager authenticationManager, JwtUtils jwtTokenUtils) {
     this.userDetailsServices = userDetailsServices;
     this.authenticationManager = authenticationManager;
     this.jwtTokenUtils = jwtTokenUtils;
@@ -38,13 +42,14 @@ public class UserAuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<AuthenticationResponse> signIn(@RequestBody AuthenticationRequest authenticationRequest) {
+  public ResponseEntity<AuthenticationResponse> signIn(
+      @RequestBody AuthenticationRequest authenticationRequest) {
 
     UserDetails userDetails;
 
-
     Authentication auth = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
+        new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+            authenticationRequest.getPassword())
     );
     userDetails = (UserDetails) auth.getPrincipal();
 

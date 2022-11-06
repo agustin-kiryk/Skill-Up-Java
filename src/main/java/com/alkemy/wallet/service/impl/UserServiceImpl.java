@@ -1,14 +1,12 @@
 package com.alkemy.wallet.service.impl;
 
 
+import com.alkemy.wallet.dto.AccountBasicDto;
 import com.alkemy.wallet.dto.UserDto;
-import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.mapper.UserMap;
-import com.alkemy.wallet.repository.UserRepository;
+import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IUserService;
 import java.util.List;
-import java.util.Optional;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,29 +14,41 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements IUserService {
 
   @Autowired
-  private UserRepository userRepository;
+  private IUserRepository IUserRepository;
+
+  @Autowired
+  AccountServiceImpl accountService;
 
   @Autowired
   private UserMap userMap;
 
   @Override
-  public List<UserDto> listAllUsers() {
+  public UserDto findById(Long id){
 
-    return userMap.userEntityList2DtoList(userRepository.findAll());
+    return userMap.userEntity2Dto(IUserRepository.findByUserId(id));
   }
 
   @Override
-  public UserDto findById(Long userId)
-  {
+  public List<AccountBasicDto> getAccountsBalance(Long id) {
 
-    Optional<UserEntity> entity=userRepository.findById(userId);
-    UserDto dto=null;
-    if (entity.isPresent())
-      dto=userMap.userEntity2Dto(entity.get());
+    UserDto user = findById(id);
+    List<AccountBasicDto> accounts = user.getAccounts();
 
-    return dto;
+    for (int i = 0; i < accounts.size(); i++) {
+
+      AccountBasicDto account;
+      account = accounts.get(i);
+      account.setBalance(accountService.calculateBalance(account.getAccountId()));
+
+    }
+    return accounts;
   }
 
+  @Override
+  public List<UserDto> listAllUsers() {
+
+    return userMap.userEntityList2DtoList(IUserRepository.findAll());
+  }
 
   @Override
   public void update(UserDto user, Long id) {
@@ -48,8 +58,8 @@ public class UserServiceImpl implements IUserService {
   @Override
   public boolean deleteById(Long id) throws Exception {
     try {
-      if (userRepository.existsById(id)) {
-        userRepository.deleteById(id);
+      if (IUserRepository.existsById(id)) {
+        IUserRepository.deleteById(id);
         return true;
       } else {
         throw new Exception();
@@ -59,4 +69,7 @@ public class UserServiceImpl implements IUserService {
     }
   }
 
-}
+
+  }
+
+

@@ -23,8 +23,8 @@ public class FixedTermDepositEntity {
     private Long userId;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ACCOUNT")
-    private Long userAccount;
+    @JoinColumn(name = "ACCOUNT_ID")
+    private Long accountId;
 
     @Column(name = "INTEREST", nullable = false)
     private Double interest;

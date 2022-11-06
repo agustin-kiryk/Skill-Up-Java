@@ -8,11 +8,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface IUserRepository extends JpaRepository<UserEntity, Long> {
 
   List<UserEntity> findAll(Specification<UserEntity> spec);
 
+  UserEntity findByUserId(Long id);
+
   UserEntity findByUsername(String email);
+
 
 
 }

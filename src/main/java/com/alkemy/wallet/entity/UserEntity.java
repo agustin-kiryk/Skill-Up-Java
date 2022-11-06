@@ -40,9 +40,11 @@ public class UserEntity implements Serializable {
   @Column(name = "PASSWORD", nullable = false)
   private String password;
 
+  @Column(name= "CREATION_DATE")
   @CreationTimestamp
   private Date createDateTime;
 
+  @Column(name = "UPDATE_DATE")
   @UpdateTimestamp
   private Date updateDateTime;
 

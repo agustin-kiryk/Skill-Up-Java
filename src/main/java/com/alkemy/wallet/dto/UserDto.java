@@ -17,7 +17,8 @@ public class UserDto {
 
   private RoleDto role;
 
-  private List<@Valid AccountDto> accounts;
+  private List<@Valid AccountBasicDto> accounts;
+
 
 
 }
