@@ -5,6 +5,7 @@ import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.dto.FixedTermDepositBasicDto;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.AccountEntity;
+import com.alkemy.wallet.entity.FixedTermDepositEntity;
 import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.exception.ParamNotFound;
 import com.alkemy.wallet.mapper.AccountMap;
@@ -13,6 +14,8 @@ import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.ITransactionService;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,5 +100,23 @@ public class AccountServiceImpl implements IAccountService {
     List<AccountDto> accountsList = accountMap.accountEntityList2DtoList(accounts);
 
     return accountsList;
+  }
+
+
+
+  @Override
+  public void updateBalance(Long accountId, Double amount) {
+    AccountEntity accountEntity= this.findEntityById(accountId);
+    accountEntity.setBalance(accountEntity.getBalance()-amount);
+    IAccountRepository.save(accountEntity);
+  }
+
+  @Override
+  public AccountEntity findEntityById(Long accountId) {
+    Optional <AccountEntity> accountEntity = IAccountRepository.findById(accountId);
+    if (!accountEntity.isPresent()){
+      throw new ParamNotFound("Account not found");
+    }
+    return accountEntity.get();
   }
 }
