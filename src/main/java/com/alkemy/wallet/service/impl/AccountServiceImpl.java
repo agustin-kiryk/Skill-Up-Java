@@ -1,11 +1,11 @@
 package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.dto.AccountBasicDto;
+import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.dto.FixedTermDepositBasicDto;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.AccountEntity;
-import com.alkemy.wallet.entity.FixedTermDepositEntity;
 import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.exception.ParamNotFound;
 import com.alkemy.wallet.mapper.AccountMap;
@@ -93,7 +93,7 @@ public class AccountServiceImpl implements IAccountService {
   }
 
   @Override
-  public List<AccountDto> findAllByUser(Long userId) {
+  public List<AccountDTO> findAllByUser(Long userId) {
     UserEntity entity = IUserRepository.findById(userId).orElseThrow(
         ()-> new ParamNotFound("User ID Invalid"));
     List<AccountEntity> accounts = IAccountRepository.findAllByUser(entity);
