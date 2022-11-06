@@ -5,14 +5,17 @@ import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.dto.FixedTermDepositBasicDto;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.AccountEntity;
+import com.alkemy.wallet.entity.FixedTermDepositEntity;
 import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.exception.ParamNotFound;
 import com.alkemy.wallet.mapper.AccountMap;
-import com.alkemy.wallet.repository.AccountRepository;
-import com.alkemy.wallet.repository.UserRepository;
+import com.alkemy.wallet.repository.IAccountRepository;
+import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.ITransactionService;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +25,18 @@ public class AccountServiceImpl implements IAccountService {
   @Autowired
   private AccountMap accountMap;
   @Autowired
-  private AccountRepository accountRepository;
+  private IAccountRepository IAccountRepository;
   @Autowired
   private ITransactionService transactionService;
   @Autowired
-  private UserRepository userRepository;
+  private IUserRepository IUserRepository;
   @Autowired
   private IAccountService accountService;
 
 
   @Override
   public AccountBasicDto findById(Long accountId) {
-    return accountMap.accountEntity2BasicDto(accountRepository.findByAccountId(accountId));
+    return accountMap.accountEntity2BasicDto(IAccountRepository.findByAccountId(accountId));
   }
 
   //The total balance of an account its the remainder of all the incomes minus all the payments and fixed term deposits.
@@ -91,11 +94,29 @@ public class AccountServiceImpl implements IAccountService {
 
   @Override
   public List<AccountDto> findAllByUser(Long userId) {
-    UserEntity entity = userRepository.findById(userId).orElseThrow(
+    UserEntity entity = IUserRepository.findById(userId).orElseThrow(
         ()-> new ParamNotFound("User ID Invalid"));
-    List<AccountEntity> accounts = accountRepository.findAllByUser(entity);
+    List<AccountEntity> accounts = IAccountRepository.findAllByUser(entity);
     List<AccountDto> accountsList = accountMap.accountEntityList2DtoList(accounts);
 
     return accountsList;
+  }
+
+
+
+  @Override
+  public void updateBalance(Long accountId, Double amount) {
+    AccountEntity accountEntity= this.findEntityById(accountId);
+    accountEntity.setBalance(accountEntity.getBalance()-amount);
+    IAccountRepository.save(accountEntity);
+  }
+
+  @Override
+  public AccountEntity findEntityById(Long accountId) {
+    Optional <AccountEntity> accountEntity = IAccountRepository.findById(accountId);
+    if (!accountEntity.isPresent()){
+      throw new ParamNotFound("Account not found");
+    }
+    return accountEntity.get();
   }
 }

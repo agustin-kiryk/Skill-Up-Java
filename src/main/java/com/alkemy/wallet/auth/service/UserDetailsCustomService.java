@@ -4,7 +4,7 @@ package com.alkemy.wallet.auth.service;
 import com.alkemy.wallet.auth.dto.UserAuthDto;
 import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.exception.RepeatedUsername;
-import com.alkemy.wallet.repository.UserRepository;
+import com.alkemy.wallet.repository.IUserRepository;
 import java.util.Collections;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ import org.springframework.stereotype.Service;
 public class UserDetailsCustomService implements UserDetailsService {
 
   @Autowired
-  private UserRepository userRepository;
+  private IUserRepository IUserRepository;
 
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserEntity userEntity = userRepository.findByUsername(username);
+    UserEntity userEntity = IUserRepository.findByUsername(username);
     if (userEntity == null) {
       throw new UsernameNotFoundException("username or password not found");
     }
@@ -34,7 +34,7 @@ public class UserDetailsCustomService implements UserDetailsService {
   public void save(@Valid UserAuthDto userDto) throws RepeatedUsername {
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    if (userRepository.findByUsername(userDto.getEmail()) != null) {
+    if (IUserRepository.findByUsername(userDto.getEmail()) != null) {
       throw new RepeatedUsername("Username repetido");
     }
     UserEntity userEntity = new UserEntity();
@@ -43,7 +43,7 @@ public class UserDetailsCustomService implements UserDetailsService {
     userEntity.setFirstName(userDto.getFirstName());
     userEntity.setLastName(userDto.getLastName());
     // userEntity.setRoleId();
-    userEntity = this.userRepository.save(userEntity);
+    userEntity = this.IUserRepository.save(userEntity);
   }
 
 

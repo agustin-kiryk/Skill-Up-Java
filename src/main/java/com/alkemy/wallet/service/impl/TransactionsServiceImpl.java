@@ -4,9 +4,8 @@ import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.TransactionEntity;
 import com.alkemy.wallet.enumeration.TypeTransaction;
 import com.alkemy.wallet.mapper.TransactionMap;
-import com.alkemy.wallet.repository.TransactionRepository;
+import com.alkemy.wallet.repository.ITransactionRepository;
 import com.alkemy.wallet.service.ITransactionService;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class TransactionsServiceImpl implements ITransactionService {
 
   @Autowired
-  private TransactionRepository transactionRepository;
+  private ITransactionRepository ITransactionRepository;
 
   @Autowired
   private TransactionMap transactionMap;
@@ -24,7 +23,7 @@ public class TransactionsServiceImpl implements ITransactionService {
   @Override
   public List<TransactionDto> getByAccountAndType(Long accountId, String type) {
 
-    List<TransactionEntity> entities = transactionRepository.findByAccountIdAndType(accountId,
+    List<TransactionEntity> entities = ITransactionRepository.findByAccountIdAndType(accountId,
         TypeTransaction.valueOf(type));
 
     List<TransactionDto> dtoList = transactionMap.transactionEntityList2DtoList(entities);
