@@ -1,10 +1,13 @@
 package com.alkemy.wallet.service;
 
 import com.alkemy.wallet.dto.TransactionDto;
+import java.util.List;
 
-  public interface ITransactionService {
+public interface ITransactionService {
 
-    public TransactionDto save(TransactionDto transaction);
 
-  }
+  public List<TransactionDto> getByAccountAndType(Long accountId, String type );
 
+
+
+}

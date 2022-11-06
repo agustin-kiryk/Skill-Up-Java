@@ -21,13 +21,13 @@ public class UserMap {
   public UserDto userEntity2Dto(UserEntity entity) {
     UserDto userDto = new UserDto();
 
-    userDto.setId(entity.getIdUser());
+    userDto.setId(entity.getUserId());
     userDto.setFirstName(entity.getFirstName());
     userDto.setLastName(entity.getLastName());
     userDto.setEmail(entity.getEmail());
 
     userDto.setRole(roleMap.roleEntity2Dto(entity.getRole()));
-    userDto.setAccounts(accountMap.accountEntityList2DtoList(entity.getAccounts()));
+    userDto.setAccounts(accountMap.accountEntityList2BasicDto(entity.getAccounts()));
 
     return userDto;
   }
@@ -36,7 +36,7 @@ public class UserMap {
 
     UserEntity userEntity = new UserEntity();
 
-    userEntity.setIdUser(dto.getId());
+    userEntity.setUserId(dto.getId());
     userEntity.setFirstName(dto.getFirstName());
     userEntity.setLastName(dto.getLastName());
     userEntity.setEmail(dto.getEmail());

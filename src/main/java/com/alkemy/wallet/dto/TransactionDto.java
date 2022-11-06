@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TransactionDto {
+
   private Long id;
   private Double amount;
   private TypeTransaction typeTransaction;
