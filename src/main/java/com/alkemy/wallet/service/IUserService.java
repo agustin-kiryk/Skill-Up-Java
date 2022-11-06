@@ -8,6 +8,8 @@ public interface IUserService {
 
   List<UserDto> listAllUsers();
 
+  UserDto findById(Long userId);
+
   void update(UserDto user, Long id);
 
   public boolean deleteById(Long id) throws Exception;
