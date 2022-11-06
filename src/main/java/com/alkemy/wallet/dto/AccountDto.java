@@ -3,6 +3,7 @@ package com.alkemy.wallet.dto;
 
 import com.alkemy.wallet.enumeration.Currency;
 import java.util.Date;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,5 +17,6 @@ public class AccountDto {
   private Double balance;
   private Date updateDate;
   private Date creationDate;
+  private TransactionDto transaction;
 
 }
