@@ -50,7 +50,7 @@ public class UserEntity implements Serializable {
   @JoinColumn(name = "roleId")
   private RoleEntity role;
 
-  @OneToMany(mappedBy = "user",
+  @OneToMany(mappedBy = "USERS",
       fetch = FetchType.EAGER,
       cascade = {
           CascadeType.DETACH,
