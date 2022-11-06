@@ -1,5 +1,10 @@
 package com.alkemy.wallet.repository;
 
-public interface IFixedTermDepositRepository {
+import com.alkemy.wallet.entity.FixedTermDepositEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface IFixedTermDepositRepository extends JpaRepository<FixedTermDepositEntity, Long> {
 
 }
