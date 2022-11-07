@@ -70,6 +70,6 @@ public class AccountEntity {
 
   private List<FixedTermDepositEntity> fixedTermDeposits=new ArrayList<>();
 
-  private TransactionEntity transaction;
+  //private TransactionEntity transaction;
 
 }
