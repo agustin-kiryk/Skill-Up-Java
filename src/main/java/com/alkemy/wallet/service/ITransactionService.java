@@ -9,5 +9,7 @@ public interface ITransactionService {
   public List<TransactionDto> getByAccountAndType(Long accountId, String type );
 
 
+  Object getTransactionDetailById(Integer id);
 
+  Object getTransactions(Integer userId);
 }

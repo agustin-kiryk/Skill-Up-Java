@@ -6,7 +6,7 @@ import com.alkemy.wallet.entity.AccountEntity;
 
 import java.util.List;
 
-public interface IAccountService {
+public interface IAccountService<AccountDto> {
 
   AccountBasicDto findById(Long accountId);
 

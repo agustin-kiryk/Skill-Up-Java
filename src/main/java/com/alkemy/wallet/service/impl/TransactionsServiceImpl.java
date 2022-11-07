@@ -30,4 +30,9 @@ public class TransactionsServiceImpl implements ITransactionService {
 
     return dtoList;
   }
+
+  @Override
+  public Object getTransactionDetailById(Integer id) {
+    return null;
+  }
 }
