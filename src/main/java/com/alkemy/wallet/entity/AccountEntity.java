@@ -72,7 +72,6 @@ public class AccountEntity {
 
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
-  private TransactionEntity transaction;
   private List < TransactionEntity > transactionEntities = new ArrayList<>();
 
 }
