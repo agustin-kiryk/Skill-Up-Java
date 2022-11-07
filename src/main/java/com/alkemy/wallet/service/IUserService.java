@@ -9,8 +9,6 @@ public interface IUserService {
 
   List<UserDto> listAllUsers();
 
-  //UserDto findById(Long userId);
-
   void update(UserDto user, Long id);
 
   boolean deleteById(Long id) throws Exception;
