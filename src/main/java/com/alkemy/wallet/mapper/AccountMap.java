@@ -62,4 +62,15 @@ public class AccountMap {
   public List<AccountEntity> accountDtoList2EntityList(List<AccountBasicDto> accounts) {
     return null;
   }
+
+  public AccountDto accountEntity2DTO(AccountEntity entitySaved) {
+    AccountDto dto = new AccountDto();
+    dto.setId(entitySaved.getAccountId());
+    dto.setCurrency(entitySaved.getCurrency());
+    dto.setTransactionLimit(entitySaved.getTransactionLimit());
+    dto.setBalance(entitySaved.getBalance());
+    dto.setUpdateDate(entitySaved.getUpdateDate());
+
+    return dto;
+  }
 }

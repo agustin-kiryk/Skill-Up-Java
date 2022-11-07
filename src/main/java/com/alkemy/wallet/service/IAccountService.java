@@ -17,4 +17,6 @@ public interface IAccountService {
   void updateBalance(Long accountId, Double amount);
 
   AccountEntity findEntityById (Long accountId);
+
+  AccountDto createAccount(String currency);
 }

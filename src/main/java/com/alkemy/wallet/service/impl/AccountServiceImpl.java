@@ -6,16 +6,21 @@ import com.alkemy.wallet.dto.FixedTermDepositBasicDto;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.AccountEntity;
 import com.alkemy.wallet.entity.UserEntity;
+import com.alkemy.wallet.enumeration.Currency;
 import com.alkemy.wallet.mapper.exception.ParamNotFound;
 import com.alkemy.wallet.mapper.AccountMap;
 import com.alkemy.wallet.repository.IAccountRepository;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.ITransactionService;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -118,4 +123,39 @@ public class AccountServiceImpl implements IAccountService {
     }
     return accountEntity.get();
   }
+
+  @Override
+  public AccountDto createAccount(String currency) {
+    //encuentro el usuario que esta logeado
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    UserEntity user = this.IUserRepository.findByUsername(email);
+    List<AccountEntity> accounts = this.IAccountRepository.findAllByUser(user);
+    if (user == null) {
+      throw new ParamNotFound("ID invalid");
+    }
+    // comparo si tiene una cuenta con la misma currency
+    accounts.forEach(account -> {
+      if (accounts.stream()
+          .anyMatch(i -> currency.equals(i.getCurrency().name()))) {
+        throw new BadCredentialsException("The account of this currency already exists");
+      }
+    });
+    AccountEntity accountEntity = new AccountEntity();
+    accountEntity.setCurrency(Currency.valueOf(currency));
+    accountEntity.setCreationDate(new Date());
+    accountEntity.setBalance(0.0);
+    if (currency.equals("ARS")) {
+      accountEntity.setTransactionLimit(300000.00);
+    } else {
+      accountEntity.setTransactionLimit(1000.00);
+    }
+    accountEntity.setUpdateDate(new Date());
+
+    AccountEntity entitySaved = this.IAccountRepository.save(accountEntity);
+    AccountDto result = accountMap.accountEntity2DTO(entitySaved);
+
+    return result;
+  }
+
+
 }
