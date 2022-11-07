@@ -14,9 +14,7 @@ public interface IUserService {
   void update(UserDto user, Long id);
 
   boolean deleteById(Long id) throws Exception;
-
-  UserDto findById(Long id);
-
+  
   List<AccountBasicDto> getAccountsBalance(Long id);
 
 }

@@ -13,6 +13,7 @@ import java.util.Date;
 public class FixedTermDepositEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "FIXED_TERM_DEPOSITS_ID")
     private Long id;
 
     @Column(name = "AMOUNT", nullable = false)

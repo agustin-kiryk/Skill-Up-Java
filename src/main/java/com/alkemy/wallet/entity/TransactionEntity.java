@@ -37,9 +37,15 @@ public class TransactionEntity {
   @JoinColumn(name = "USER_ID")
   private UserEntity userEntity;
 
+  @Column(name = "USER_ID",insertable = false, updatable = false)
+  private Long userId;
+
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "ACCOUNT_ID")
-  private AccountEntity accountId;
+  private AccountEntity accountEntity;
+
+  @Column(name = "ACCOUNT_ID",insertable = false, updatable = false)
+  private Long accountId;
 
   @CreationTimestamp
   @Column(name = "TRANSACTION_DATE")

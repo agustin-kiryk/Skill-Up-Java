@@ -26,14 +26,14 @@ import org.hibernate.annotations.Where;
 @Getter
 @Setter
 @Entity
-@Table(name = "ACCOUNT")
+@Table(name = "ACCOUNTS")
 @SQLDelete(sql = "UPDATE accounts SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 
 public class AccountEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "ACCOUNT_ID", nullable = false)
   private Long accountId;
 
@@ -61,15 +61,11 @@ public class AccountEntity {
 
   private UserEntity user;
 
-  @OneToMany(mappedBy = "accountId", fetch = FetchType.EAGER,
-      cascade = {
-          CascadeType.DETACH,
-          CascadeType.MERGE,
-          CascadeType.REFRESH,
-          CascadeType.PERSIST})
-
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity")
   private List<FixedTermDepositEntity> fixedTermDeposits=new ArrayList<>();
 
-  private TransactionEntity transaction;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity")
+  private List<TransactionEntity> transactionEntities = new ArrayList<>();
 
 }
