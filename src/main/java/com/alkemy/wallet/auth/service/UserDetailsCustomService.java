@@ -6,7 +6,7 @@ import com.alkemy.wallet.auth.dto.AuthenticationResponse;
 import com.alkemy.wallet.auth.dto.UserAuthDto;
 import com.alkemy.wallet.auth.filter.JwtRequestFilter;
 import com.alkemy.wallet.entity.UserEntity;
-import com.alkemy.wallet.mapper.exception.RepeatedUsername;
+import com.alkemy.wallet.exception.RepeatedUsername;
 import com.alkemy.wallet.repository.IUserRepository;
 import java.util.Collections;
 import javax.validation.Valid;

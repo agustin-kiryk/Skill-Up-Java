@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public class TransactionController {
 
@@ -18,6 +20,12 @@ public class TransactionController {
     List<TransactionDto> transactionsList=transactionService.transactionsById(userId);
     return ResponseEntity.ok().body(transactionsList);
 
+  }
+
+  @PutMapping("/transactions/{userId}")
+  public ResponseEntity<TransactionDto> updateTransaction (@PathVariable Long id, @RequestBody TransactionDto transactionDto){
+    TransactionDto updatedTransaction= transactionService.updateTransaction(id, transactionDto);
+    return ResponseEntity.ok().body(updatedTransaction);
   }
 
 }

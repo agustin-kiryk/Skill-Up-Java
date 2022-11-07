@@ -33,4 +33,11 @@ public class TransactionMap {
     return dtos;
   }
 
+  public void refreshValues(TransactionEntity transactionEntity, TransactionDto transactionDto) {
+
+    transactionEntity.setAmount(transactionDto.getAmount());
+    transactionEntity.setTransactionDate(transactionDto.getTransactionDate());
+    transactionEntity.setType(transactionDto.getTypeTransaction());
+    transactionEntity.setDescription(transactionDto.getDescription());
+  }
 }

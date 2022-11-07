@@ -10,5 +10,5 @@ public interface ITransactionService {
   public List<TransactionDto> getByAccountAndType(Long accountId, String type );
 
 
-
+    TransactionDto updateTransaction(Long id, TransactionDto transactionDto);
 }

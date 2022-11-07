@@ -1,8 +1,8 @@
 package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.dto.ApiErrorDTO;
-import com.alkemy.wallet.mapper.exception.ParamNotFound;
-import com.alkemy.wallet.mapper.exception.RepeatedUsername;
+import com.alkemy.wallet.exception.ParamNotFound;
+import com.alkemy.wallet.exception.RepeatedUsername;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
