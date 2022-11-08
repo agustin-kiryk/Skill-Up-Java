@@ -58,23 +58,9 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
-  public boolean deleteById(Long id) throws Exception {
-    try {
-      if (IUserRepository.existsById(id)) {
-        IUserRepository.deleteById(id);
-        return true;
-      } else {
-        throw new Exception();
-      }
-    } catch (Exception e) {
-      throw new Exception(e.getMessage());
-    }
-  }
-  @Override
   public void delete(Long id) {
-    String email = SecurityContextHolder.getContext().getAuthentication().getName();
-    Long userId = this.IUserRepository.findByEmail(email).getUserId();
-    UserEntity entity = this.IUserRepository.findById(userId).orElseThrow(
+
+    UserEntity entity = this.IUserRepository.findById(id).orElseThrow(
         ()->new ParamNotFound("invalid Id"));
     this.IUserRepository.deleteById(id);
 

@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "USERS")
 
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE user_id=?")
 @Where(clause = "deleted=false")
 @Getter
 @Setter
