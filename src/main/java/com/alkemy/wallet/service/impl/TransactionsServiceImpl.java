@@ -67,8 +67,8 @@ public class TransactionsServiceImpl implements ITransactionService {
 
     UserDto user = userService.findById(userId);
     List<TransactionDto> dtoList = new ArrayList<>();
-    List<AccountBasicDto> accounts = new ArrayList<>()
-    
+    List<AccountBasicDto> accounts = new ArrayList<>();
+
     for (AccountBasicDto account : accounts) {
       dtoList.add(account.getTransaction());
     }
