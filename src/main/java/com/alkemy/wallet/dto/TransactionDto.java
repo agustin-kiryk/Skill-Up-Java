@@ -11,7 +11,8 @@ public class TransactionDto {
 
   private Long id;
   private Double amount;
-  private TypeTransaction typeTransaction;
+  private TypeTransaction type;
   private String description;
+  private AccountDto accountDto;
   private Date transactionDate;
 }

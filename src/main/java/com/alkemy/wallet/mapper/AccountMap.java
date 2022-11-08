@@ -73,4 +73,18 @@ public class AccountMap {
 
     return dto;
   }
+
+  public AccountEntity accountDto2Entity(AccountDto dto){
+    AccountEntity entity = new AccountEntity();
+
+    entity.setAccountId(dto.getId());
+    entity.setCurrency(dto.getCurrency());
+    entity.setTransactionLimit(dto.getTransactionLimit());
+    entity.setBalance(dto.getBalance());
+    entity.setCreationDate(dto.getCreationDate());
+    entity.setUpdateDate(dto.getUpdateDate());
+
+    return entity;
+
+  }
 }

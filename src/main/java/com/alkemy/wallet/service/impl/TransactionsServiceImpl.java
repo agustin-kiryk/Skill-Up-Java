@@ -5,6 +5,7 @@ import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.entity.TransactionEntity;
 import com.alkemy.wallet.enumeration.TypeTransaction;
 import com.alkemy.wallet.mapper.TransactionMap;
+import com.alkemy.wallet.repository.IAccountRepository;
 import com.alkemy.wallet.repository.ITransactionRepository;
 import com.alkemy.wallet.service.ITransactionService;
 import com.alkemy.wallet.service.IUserService;
@@ -24,6 +25,9 @@ public class TransactionsServiceImpl implements ITransactionService {
   @Autowired
   private IUserService userService;
 
+  @Autowired
+  private IAccountRepository accountRepository;
+
   @Override
   public List<TransactionDto> getByAccountAndType(Long accountId, String type) {
 
@@ -36,11 +40,26 @@ public class TransactionsServiceImpl implements ITransactionService {
   }
 
   @Override
+  public TransactionDto createTransaction(TransactionDto dto) {
+    TransactionEntity transactionEntity = transactionMap.transactionDto2Entity(dto);
+
+    transactionEntity.setAmount(dto.getAmount());
+    transactionEntity.setType(dto.getType());
+    transactionEntity.setAccountId(accountRepository.getById(dto.getAccountDto().getId()));
+    transactionEntity.setDescription(dto.getDescription());
+
+    ITransactionRepository.save(transactionEntity);
+
+    return dto;
+  }
+
+  @Override
   public List<TransactionDto> transactionsById(Long userId) {
-    UserDto user=userService.findById(userId);
-    List<TransactionDto> dtoList=null;
-    for (int i=0;i<user.getAccounts().size();i++)
+    UserDto user = userService.findById(userId);
+    List<TransactionDto> dtoList = null;
+    for (int i = 0; i < user.getAccounts().size(); i++) {
       dtoList.add(user.getAccounts().get(i).getTransaction());
+    }
     return dtoList;
   }
 
