@@ -2,7 +2,9 @@ package com.alkemy.wallet.entity;
 
 import com.alkemy.wallet.enumeration.RoleName;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.naming.Name;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,11 +31,13 @@ public class RoleEntity {
   @Column(name = "DESCRIPTION", length = 50)
   private String description;
 
+  @Column(name="CREATION_DATE")
   @CreationTimestamp
-  private LocalDateTime createDateTime;
+  private Date createDateTime;
 
+  @Column(name="UPDATE_DATE")
   @UpdateTimestamp
-  private LocalDateTime updateDateTime;
+  private Date updateDateTime;
 
   @OneToMany(mappedBy = "role",
       fetch = FetchType.EAGER,

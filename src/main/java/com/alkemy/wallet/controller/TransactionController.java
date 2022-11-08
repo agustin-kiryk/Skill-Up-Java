@@ -34,13 +34,9 @@ public class TransactionController {
   @PostMapping("/payment")
   public ResponseEntity<TransactionDto> makeAPayment(@RequestBody TransactionDto dto) {
 
-    if(dto.getAmount() <= 0){
-      throw new ParamNotFound("The amount must be greater than 0");
-    }else {
       dto.setType(TypeTransaction.PAYMENT);
       TransactionDto transactionDto = transactionService.createTransaction(dto);
-      return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+      return ResponseEntity.status(HttpStatus.CREATED).body(transactionDto);
     }
-  }
 
 }
