@@ -17,4 +17,5 @@ public class TransactionDto {
   private String description;
   private Date transactionDate;
   private Long destinationAccountId;
+
 }

@@ -41,6 +41,21 @@ public class TransactionsServiceImpl implements ITransactionService {
   }
 
   @Override
+  public TransactionDto save(TransactionDto transaction) {
+    return null;
+  }
+
+  @Override
+  public List<TransactionDto> getAllByUser(long userId) {
+    return null;
+  }
+
+  @Override
+  public TransactionDto edit(long userId, long id, String description) {
+    return null;
+  }
+
+  @Override
   public List<TransactionDto> transactionsById(Long userId) {
     UserDto user=userService.findById(userId);
     List<TransactionDto> dtoList=null;
@@ -67,6 +82,5 @@ public class TransactionsServiceImpl implements ITransactionService {
 
     return transactionMap.transactionEntity2Dto(transactionUpdate);
   }
-
 
 }
