@@ -128,7 +128,7 @@ public class AccountServiceImpl implements IAccountService {
   public AccountDto createAccount(String currency) {
     //encuentro el usuario que esta logeado
     String email = SecurityContextHolder.getContext().getAuthentication().getName();
-    UserEntity user = this.IUserRepository.findByUsername(email);
+    UserEntity user = this.IUserRepository.findByEmail(email);
     List<AccountEntity> accounts = this.IAccountRepository.findAllByUser(user);
     if (user == null) {
       throw new ParamNotFound("ID invalid");
