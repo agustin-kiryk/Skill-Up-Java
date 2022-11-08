@@ -33,4 +33,14 @@ public class TransactionMap {
     return dtos;
   }
 
+  public TransactionEntity transactionDto2Entity(TransactionDto dto){
+    TransactionEntity deposit = new TransactionEntity();
+
+    deposit.setAmount(dto.getAmount());
+    deposit.setType(dto.getTypeTransaction());
+    deposit.setDescription(dto.getDescription());
+    deposit.setTransactionDate(dto.getTransactionDate());
+
+    return deposit;
+  }
 }
