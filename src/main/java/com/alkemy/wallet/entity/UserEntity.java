@@ -74,6 +74,8 @@ public class UserEntity implements Serializable {
   }
   private boolean deleted = Boolean.FALSE;
 
+  public boolean isEmpty() {
   }
+}
 
 

@@ -12,7 +12,7 @@ public interface IUserRepository extends JpaRepository<UserEntity, Long> {
 
   List<UserEntity> findAll(Specification<UserEntity> spec);
 
-  UserEntity findByUserId(Long id);
+  static UserEntity findByUserId(Long id);
 
   UserEntity findByUsername(String email);
 

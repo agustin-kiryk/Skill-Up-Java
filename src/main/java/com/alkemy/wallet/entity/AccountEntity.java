@@ -67,6 +67,9 @@ public class AccountEntity {
           CascadeType.MERGE,
           CascadeType.REFRESH,
           CascadeType.PERSIST})
-  private List<FixedTermDepositEntity> fixedTermDeposits = new ArrayList<>();
+
+  private List<FixedTermDepositEntity> fixedTermDeposits=new ArrayList<>();
+
+  private TransactionEntity transaction;
 
 }

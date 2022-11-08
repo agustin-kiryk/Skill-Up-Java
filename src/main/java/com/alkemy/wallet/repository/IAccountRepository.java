@@ -8,7 +8,17 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IAccountRepository extends JpaRepository<AccountEntity , Long> {
-  List<AccountEntity> findAllByUser(UserEntity user);
 
+
+  static void save() {
+    
+  }
+
+  static void save(Accounts accounts) {
+  }
+
+
+  List<AccountEntity> findAllByUser(UserEntity user);
+  
   AccountEntity findByAccountId(Long accountId);
 }

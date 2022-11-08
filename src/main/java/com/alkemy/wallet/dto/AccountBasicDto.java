@@ -12,6 +12,7 @@ public class AccountBasicDto {
   private Currency currency;
   private double balance;
   private List<FixedTermDepositBasicDto> fixedTermDeposits;
+  private TransactionDto transaction;
 }
 
 
