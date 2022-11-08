@@ -70,6 +70,8 @@ public class AccountEntity {
 
   private List<FixedTermDepositEntity> fixedTermDeposits=new ArrayList<>();
 
-  private TransactionEntity transaction;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
+  private List < TransactionEntity > transactionEntities = new ArrayList<>();
 
 }

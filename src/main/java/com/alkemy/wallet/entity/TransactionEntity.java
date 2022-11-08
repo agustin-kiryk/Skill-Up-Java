@@ -29,7 +29,7 @@ public class TransactionEntity {
   @Column(name = "AMOUNT", nullable = false)
   private Double amount;
   @Column(name = "TYPE_TRANSACTION", nullable = false)
-  private TypeTransaction typeTransaction;
+  private TypeTransaction type;
   @Column(name = "DESCRIPTION")
   private String description;
 
@@ -39,7 +39,7 @@ public class TransactionEntity {
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "ACCOUNT_ID")
-  private AccountEntity accountEntity;
+  private AccountEntity accountId;
 
   @CreationTimestamp
   @Column(name = "TRANSACTION_DATE")

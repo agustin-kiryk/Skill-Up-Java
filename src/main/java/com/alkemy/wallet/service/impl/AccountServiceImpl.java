@@ -6,7 +6,6 @@ import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.dto.FixedTermDepositBasicDto;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.AccountEntity;
-import com.alkemy.wallet.entity.FixedTermDepositEntity;
 import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.exception.ParamNotFound;
 import com.alkemy.wallet.mapper.AccountMap;
