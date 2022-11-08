@@ -17,4 +17,5 @@ public interface IUserService {
 
   List<AccountBasicDto> getAccountsBalance(Long id);
 
+  void delete(Long id);
 }

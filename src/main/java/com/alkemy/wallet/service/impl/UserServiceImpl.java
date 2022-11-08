@@ -3,7 +3,9 @@ package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.dto.AccountBasicDto;
 import com.alkemy.wallet.dto.UserDto;
+import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.mapper.UserMap;
+import com.alkemy.wallet.mapper.exception.ParamNotFound;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IUserService;
 import java.util.List;
@@ -43,7 +45,6 @@ public class UserServiceImpl implements IUserService {
     }
     return accounts;
   }
-
   @Override
   public List<UserDto> listAllUsers() {
 
@@ -68,8 +69,16 @@ public class UserServiceImpl implements IUserService {
       throw new Exception(e.getMessage());
     }
   }
-
+  @Override
+  public void delete(Long id) {
+    UserEntity entity = this.IUserRepository.findById(id).orElseThrow(
+        ()->new ParamNotFound("invalid Id"));
+    this.IUserRepository.deleteById(id);
 
   }
+
+
+
+}
 
 
