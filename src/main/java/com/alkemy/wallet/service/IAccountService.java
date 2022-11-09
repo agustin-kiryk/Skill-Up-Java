@@ -1,5 +1,7 @@
 package com.alkemy.wallet.service;
 
+import com.alkemy.wallet.auth.dto.AccountRequestDto;
+import com.alkemy.wallet.auth.dto.AccountResponseDto;
 import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.dto.AccountBasicDto;
 
@@ -22,4 +24,6 @@ public interface IAccountService {
   //AccountEntity findEntityById (Long accountId);
 
   AccountDto createAccount(String currency);
+
+  AccountResponseDto save(AccountRequestDto request);
 }

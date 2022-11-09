@@ -1,5 +1,8 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.auth.dto.AccountRequestDto;
+import com.alkemy.wallet.auth.dto.AccountResponseDto;
+import com.alkemy.wallet.dto.AccountBalanceDto;
 import com.alkemy.wallet.dto.AccountBasicDto;
 import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.dto.FixedTermDepositBasicDto;
@@ -10,18 +13,23 @@ import com.alkemy.wallet.enumeration.Currency;
 import com.alkemy.wallet.mapper.exception.ParamNotFound;
 import com.alkemy.wallet.mapper.AccountMap;
 import com.alkemy.wallet.repository.IAccountRepository;
+import com.alkemy.wallet.repository.ITransactionRepository;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.ITransactionService;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class AccountServiceImpl implements IAccountService {
 
@@ -151,4 +159,47 @@ public class AccountServiceImpl implements IAccountService {
   }
 
 
-}
+
+    private final IAccountRepository accountRepository;
+    private final ITransactionRepository iTransactionRepository;
+
+    @Override
+    public AccountResponseDto save(AccountRequestDto request) {
+      return null;
+    }
+
+
+    public AccountBalanceDto getAccountBalance(long idUser) {
+      Optional<AccountEntity> account = accountRepository.findByUserId(idUser);
+      if (account.isEmpty())
+        return null;
+
+      AccountBalanceDto accountBalanceDTO = new AccountBalanceDto();
+      if (account.get().getCurrency().equals(Currency.ARS)) {
+        accountBalanceDTO.setBalanceUSD(account.get().getBalance() / 282);
+        accountBalanceDTO.setBalanceARS(account.get().getBalance());
+      }
+
+      if (account.get().getCurrency().equals(Currency.USD)) {
+        accountBalanceDTO.setBalanceUSD(account.get().getBalance() * 282);
+        accountBalanceDTO.setBalanceARS(account.get().getBalance());
+      }
+
+      LocalDate dateDB = LocalDate.of
+          (account.get().getCreationDate().getYear(),
+              account.get().getCreationDate().getMonth(),
+              account.get().getCreationDate().getDay());
+
+      Period duration = Period.between(dateDB, LocalDate.now());
+      if (duration.getMonths() > 0){
+        accountBalanceDTO.setFixedTermDeposit(account.get().getBalance() * (282 * duration.getMonths()));
+      }
+
+      return accountBalanceDTO;
+    }
+
+
+  }
+
+
+

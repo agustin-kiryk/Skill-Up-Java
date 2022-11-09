@@ -67,6 +67,17 @@ public class TransactionsServiceImpl implements ITransactionService {
       return dto;
     }
   }
+
+  @Override
+  public String moneySendInPesos(Long idUser, Long typeTransaction, Double amount) {
+    return null;
+  }
+
+  @Override
+  public String moneySendInUsd(Long idUser, Long typeTransaction, Double amount) {
+    return null;
+  }
+
   @Override
   public List<TransactionDto> transactionsById(Long userId) {
 
