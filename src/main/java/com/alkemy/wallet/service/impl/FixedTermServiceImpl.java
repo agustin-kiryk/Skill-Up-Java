@@ -8,6 +8,7 @@ import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.enumeration.Currency;
 import com.alkemy.wallet.mapper.exception.MinDaysException;
 import com.alkemy.wallet.mapper.FixedTermDepositMap;
+import com.alkemy.wallet.mapper.exception.ParamNotFound;
 import com.alkemy.wallet.repository.IAccountRepository;
 import com.alkemy.wallet.repository.IFixedTermDepositRepository;
 import com.alkemy.wallet.repository.IUserRepository;
@@ -72,19 +73,20 @@ public class FixedTermServiceImpl implements IFixedTermDepositService {
   @Override
   public FixedTermSimulationDto simulateFixedTermDeposit(FixedTermSimulationDto dto) {
 
-    if(dto.getCreationDate() == null){
-      throw new MinDaysException("You must choose a closing date");
+    Date date = new Date();
+
+    if (dto.getClosingDate() == null || dto.getClosingDate().before(date) || dto.getAmount() <= 0) {
+      throw new ParamNotFound("You must choose a valid closing date and a valid amount");
     }
 
-Date date = new Date();
     Long diffInMillies = Math.abs(dto.getClosingDate().getTime() -
         date.getTime());
 
     double diff = TimeUnit.DAYS.convert(diffInMillies,
-            TimeUnit.MILLISECONDS);
+        TimeUnit.MILLISECONDS);
 
     if (diff < 30) {
-      throw new MinDaysException("The Closing date cannot be less than 30 days.");
+      throw new ParamNotFound("The Closing date cannot be less than 30 days.");
     }
 
     FixedTermSimulationDto simulation = new FixedTermSimulationDto();
