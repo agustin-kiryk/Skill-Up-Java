@@ -4,6 +4,7 @@ import com.alkemy.wallet.dto.AccountBasicDto;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.entity.TransactionEntity;
+import com.alkemy.wallet.enumeration.Currency;
 import com.alkemy.wallet.enumeration.TypeTransaction;
 import com.alkemy.wallet.mapper.TransactionMap;
 import com.alkemy.wallet.mapper.exception.ParamNotFound;
@@ -89,5 +90,10 @@ public class TransactionsServiceImpl implements ITransactionService {
     //TODO: FALTA VALIDAR SI EL USUARIO ES EL DUEÑO DEL ID DE TRANSACCION
     TransactionDto transactionDto = this.transactionMap.transactionEntity2Dto(transaction.get());
     return transactionDto;
+  }
+
+  @Override
+  public TransactionDto send(TransactionDto transactionSendMoneyDto, Currency ars) {
+    return null;
   }
 }

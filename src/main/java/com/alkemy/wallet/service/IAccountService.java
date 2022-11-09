@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface IAccountService {
 
+  static Object getAccountBalance(Long idUser) {
+    return null;
+  }
+
   AccountBasicDto findById(Long accountId);
 
   double calculateBalance(Long accountId);
