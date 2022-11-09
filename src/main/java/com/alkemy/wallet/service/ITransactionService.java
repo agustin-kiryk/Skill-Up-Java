@@ -1,6 +1,7 @@
 package com.alkemy.wallet.service;
 
 import com.alkemy.wallet.dto.TransactionDto;
+import com.alkemy.wallet.enumeration.Currency;
 import java.util.List;
 
 public interface ITransactionService {
@@ -13,4 +14,6 @@ public interface ITransactionService {
 
 
   TransactionDto getDetailById(Long transactionId);
+
+  TransactionDto send(TransactionDto transactionSendMoneyDto, Currency ars);
 }
