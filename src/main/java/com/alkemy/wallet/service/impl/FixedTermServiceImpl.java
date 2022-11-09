@@ -13,7 +13,12 @@ import com.alkemy.wallet.repository.IFixedTermDepositRepository;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.IFixedTermDepositService;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -67,19 +72,30 @@ public class FixedTermServiceImpl implements IFixedTermDepositService {
   @Override
   public FixedTermSimulationDto simulateFixedTermDeposit(FixedTermSimulationDto dto) {
 
-    FixedTermSimulationDto simulation = new FixedTermSimulationDto();
-    simulation.setCreationDate(new Date());
+    if(dto.getCreationDate() == null){
+      throw new MinDaysException("You must choose a closing date");
+    }
 
-    Long duration = ((simulation.getCreationDate().getTime() - dto.getClosingDate().getTime())
-        / 86400000);
-    if(duration < 30){
+Date date = new Date();
+    Long diffInMillies = Math.abs(dto.getClosingDate().getTime() -
+        date.getTime());
+
+    double diff = TimeUnit.DAYS.convert(diffInMillies,
+            TimeUnit.MILLISECONDS);
+
+    if (diff < 30) {
       throw new MinDaysException("The Closing date cannot be less than 30 days.");
     }
+
+    FixedTermSimulationDto simulation = new FixedTermSimulationDto();
     simulation.setClosingDate(dto.getClosingDate());
+    simulation.setCreationDate(date);
     simulation.setAmount(dto.getAmount());
-    simulation.setInterest((duration * 0.5));
+    simulation.setInterest(diff * 0.5);
     //                        (AMOUNT DEPOSITED)      +   (INTEREST EARNINGS CALCULATED WITH A SIMPLE THREE RULE)
-    simulation.setTotalAmount((simulation.getAmount()) + ((simulation.getAmount() * simulation.getInterest()) / 100));
+
+    simulation.setTotalAmount(
+        (simulation.getAmount()) + ((simulation.getAmount() * simulation.getInterest()) / 100));
 
     return simulation;
   }

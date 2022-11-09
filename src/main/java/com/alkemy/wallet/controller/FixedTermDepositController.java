@@ -26,6 +26,6 @@ public class FixedTermDepositController {
     public ResponseEntity<FixedTermSimulationDto> simulateFixedTerm(@RequestBody FixedTermSimulationDto dto){
 
         FixedTermSimulationDto simulation = fixedTermDepositService.simulateFixedTermDeposit(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(simulation);
     }
 }
