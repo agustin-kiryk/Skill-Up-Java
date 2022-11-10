@@ -69,6 +69,7 @@ public class TransactionsServiceImpl implements ITransactionService {
       return dto;
     }
   }
+
   @Override
   public List<TransactionDto> transactionsById(Long userId) {
 
@@ -81,16 +82,17 @@ public class TransactionsServiceImpl implements ITransactionService {
     }
     return dtoList;
   }
+
   @Override
   public TransactionDto getDetailById(Long transactionId) {
 
     Optional<TransactionEntity> transaction = this.ITransactionRepository.findById(transactionId);
-    if (!transaction.isPresent()){
+    if (!transaction.isPresent()) {
       throw new ParamNotFound("id transaction invalid");
     }
     String email = SecurityContextHolder.getContext().getAuthentication().getName();
     UserEntity user = userRepository.findByEmail(email);
-    if (!Objects.equals(user.getUserId(), transaction.get().getUserEntity().getUserId())){
+    if (!Objects.equals(user.getUserId(), transaction.get().getUserEntity().getUserId())) {
       throw new ParamNotFound("the Transaction id don't below to user");
     }
 
@@ -101,24 +103,27 @@ public class TransactionsServiceImpl implements ITransactionService {
   @Override
   public TransactionDto refreshValues(Long id, TransactionDto transactionDto) {
     Optional<TransactionEntity> transaction = ITransactionRepository.findById(id);
-    if (!transaction.isPresent()){
+    if (!transaction.isPresent()) {
       throw new ParamNotFound("Transaction Id not found");
     }
 
     String email = SecurityContextHolder.getContext().getAuthentication().getName();
     UserEntity user = userRepository.findByEmail(email);
-    if (!Objects.equals(user.getUserId(), transaction.get().getUserEntity().getUserId())){
+    if (!Objects.equals(user.getUserId(), transaction.get().getUserEntity().getUserId())) {
       throw new ParamNotFound("the Transaction id don't below to user");
     }
-    transactionMap.updateDescription(transaction,transactionDto.getDescription());
+    transactionMap.updateDescription(transaction, transactionDto.getDescription());
     TransactionEntity transactionUpdated = ITransactionRepository.save(transaction.get());
     return transactionMap.transactionEntity2Dto(transactionUpdated);
 
+  }
+
+  @Override
   public TransactionDto createNewDeposit(TransactionDto dto) {
     TransactionEntity deposit = transactionMap.transactionDto2Entity(dto);
     Double depositAmount = deposit.getAmount();
 
-    if(depositAmount < 0){
+    if (depositAmount < 0) {
       throw new AmountException("the amount must be greater than zero");
     }
     TransactionEntity createdDeposit = ITransactionRepository.save(deposit);
