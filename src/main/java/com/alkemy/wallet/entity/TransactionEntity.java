@@ -33,11 +33,11 @@ public class TransactionEntity {
   @Column(name = "DESCRIPTION")
   private String description;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "USER_ID")
   private UserEntity userEntity;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "ACCOUNT_ID")
   private AccountEntity accountId;
 

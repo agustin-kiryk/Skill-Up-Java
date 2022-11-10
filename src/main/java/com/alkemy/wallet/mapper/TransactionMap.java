@@ -4,6 +4,8 @@ import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.entity.TransactionEntity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,4 +51,9 @@ public class TransactionMap {
 
     return entity;
   }
+
+    public void updateDescription(Optional<TransactionEntity> transaction, String description) {
+
+      transaction.get().setDescription(description);
+    }
 }

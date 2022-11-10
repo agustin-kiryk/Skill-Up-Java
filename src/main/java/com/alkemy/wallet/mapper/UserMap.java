@@ -1,11 +1,14 @@
 package com.alkemy.wallet.mapper;
 
+import com.alkemy.wallet.auth.dto.ResponseUserDto;
 import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.repository.IUserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,6 +22,9 @@ public class UserMap {
 
   @Autowired
   private RoleMap roleMap;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
 
   public UserDto userEntity2Dto(UserEntity entity) {
     UserDto userDto = new UserDto();
@@ -76,5 +82,33 @@ public class UserMap {
 
     return entityList;
 
+  }
+
+  public UserEntity userAuthDto2Entity(ResponseUserDto userDto) {
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    UserEntity userEntity = new UserEntity();
+    userEntity.setFirstName(userDto.getFirstName());
+    userEntity.setLastName(userDto.getLastName());
+    userEntity.setEmail(userDto.getEmail());
+    userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+    userEntity.setRole(userDto.getRole());
+    userEntity.setUpdateDateTime(userDto.getUpdateDate());
+    userEntity.setCreateDateTime(userDto.getCreationDate());
+
+    return userEntity;
+  }
+
+  public ResponseUserDto userAuthEntity2Dto(UserEntity entitySaved) {
+    ResponseUserDto dto = new ResponseUserDto();
+    dto.setId(entitySaved.getUserId());
+    dto.setFirstName(entitySaved.getFirstName());
+    dto.setLastName(entitySaved.getLastName());
+    dto.setEmail(entitySaved.getEmail());
+    //dto.setPassword(entitySaved.getPassword());
+    dto.setRole(entitySaved.getRole());
+    dto.setUpdateDate(entitySaved.getUpdateDateTime());
+    dto.setCreationDate(entitySaved.getCreateDateTime());
+    dto.setAccounts(entitySaved.getAccounts());//TODO: VER TRAER ID ACCOUNT CON ACOUNTREPO
+    return dto;
   }
 }

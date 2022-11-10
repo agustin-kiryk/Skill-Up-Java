@@ -1,6 +1,7 @@
 package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.dto.FixedTermDepositDto;
+import com.alkemy.wallet.dto.FixedTermSimulationDto;
 import com.alkemy.wallet.service.IFixedTermDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,4 +22,10 @@ public class FixedTermDepositController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newFixedTerm);
     }
 
+    @GetMapping("/fixedTermDeposit/simulate")
+    public ResponseEntity<FixedTermSimulationDto> simulateFixedTerm(@RequestBody FixedTermSimulationDto dto){
+
+        FixedTermSimulationDto simulation = fixedTermDepositService.simulateFixedTermDeposit(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(simulation);
+    }
 }
