@@ -12,6 +12,8 @@ import com.alkemy.wallet.service.IUserService;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -90,7 +92,9 @@ public class UserServiceImpl implements IUserService {
     UserDto result=userMap.userEntity2Dto(entitySaved);
     return result;
   }
-
+  public Page<UserEntity> findALl(Pageable pageable){
+    return IUserRepository.findAll(pageable);
+  }
 
 }
 
