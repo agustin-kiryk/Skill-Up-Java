@@ -1,12 +1,13 @@
 package com.alkemy.wallet.auth.service;
 
 
-import com.alkemy.wallet.auth.dto.AuthenticationRequest;
 import com.alkemy.wallet.auth.dto.ResponseUserDto;
 import com.alkemy.wallet.auth.dto.UserAuthDto;
 import com.alkemy.wallet.dto.CurrencyDto;
+import com.alkemy.wallet.entity.RoleEntity;
 import com.alkemy.wallet.entity.UserEntity;
 import com.alkemy.wallet.enumeration.Currency;
+import com.alkemy.wallet.enumeration.RoleName;
 import com.alkemy.wallet.mapper.UserMap;
 import com.alkemy.wallet.mapper.exception.RepeatedUsername;
 import com.alkemy.wallet.repository.IRoleRepository;
@@ -48,10 +49,17 @@ public class UserDetailsCustomService implements UserDetailsService {
       throw new RepeatedUsername("repeated user");
     }
     UserEntity entity = userMap.userAuthDto2Entity(userDto);
+
+    RoleEntity role = iRoleRepository.findByName(RoleName.ROLE_USER);
+    entity.setRole(role);
+
     UserEntity entitySaved = this.IUserRepository.save(entity);
+
     this.accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(Currency.USD));
     this.accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(Currency.ARS));
     ResponseUserDto responseUserDto = userMap.userAuthEntity2Dto(entitySaved);
+
+
     return responseUserDto;
 
 
@@ -68,7 +76,7 @@ public class UserDetailsCustomService implements UserDetailsService {
     userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
     userEntity.setFirstName(userDto.getFirstName());
     userEntity.setLastName(userDto.getLastName());
-    userEntity.setRole(iRoleRepository.findByName("ADMIN"));
+    userEntity.setRole(iRoleRepository.findByName(RoleName.ROLE_ADMIN));
     userEntity = this.IUserRepository.save(userEntity);
   }
 
