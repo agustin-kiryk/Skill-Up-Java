@@ -98,5 +98,11 @@ public class TransactionController {
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
+  @PostMapping("/sendUsd")
+  public ResponseEntity<TransactionDto> sendUsd(@RequestBody SendTransferDto sendTransferDto){
+    TransactionDto result = transactionService.send(sendTransferDto, Currency.USD);
+    return ResponseEntity.status(HttpStatus.CREATED).body(result);
+  }
+
 
 }
