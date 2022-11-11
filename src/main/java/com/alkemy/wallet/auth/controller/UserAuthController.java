@@ -8,6 +8,9 @@ import com.alkemy.wallet.auth.dto.UserAuthDto;
 import com.alkemy.wallet.auth.service.JwtUtils;
 import com.alkemy.wallet.auth.service.UserDetailsCustomService;
 import com.alkemy.wallet.service.IUserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,19 +43,26 @@ public class UserAuthController {
     this.jwtTokenUtils = jwtTokenUtils;
     this.iUserService = iUserService;
   }
-
+  @ApiOperation(value = "register", notes = "creates and returns an user ")
+  @ApiResponse(code = 201, message = "Successfully created")
   @PostMapping("/register")
   public ResponseEntity<ResponseUserDto> signUp(@Valid @RequestBody ResponseUserDto user) {
     ResponseUserDto userRegister = this.userDetailsServices.save(user);
     return ResponseEntity.status(HttpStatus.CREATED).body(userRegister);
   }
 
+  @ApiOperation(value = "register admin", notes = "creates and returns an admin user ")
+  @ApiResponse(code = 201, message = "Successfully created")
   @PostMapping("/registerAdmin")
   public ResponseEntity<AuthenticationResponse> signUpAdmin(@Valid @RequestBody UserAuthDto user) {
     this.userDetailsServices.saveAdmin(user);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
-
+  @ApiOperation(value = "login", notes = "a login that returns a token")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully retrieved"),
+      @ApiResponse(code = 401, message = "Unauthorized -bad email or password")
+  })
   @PostMapping("/login")
   public ResponseEntity<AuthenticationResponse> signIn(
       @RequestBody AuthenticationRequest authenticationRequest) {

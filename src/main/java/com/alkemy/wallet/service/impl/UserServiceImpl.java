@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,9 +47,10 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
-  public List<AccountBasicDto> getAccountsBalance(Long id) {
+  public List<AccountBasicDto> getAccountsBalance() {
 
-    UserEntity user = IUserRepository.findByUserId(id);
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    UserEntity user = IUserRepository.findByEmail(email);
     List<AccountEntity> accounts = user.getAccounts();
 
     for (int i = 0; i < accounts.size(); i++) {

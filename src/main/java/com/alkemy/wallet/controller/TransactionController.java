@@ -7,12 +7,18 @@ import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.enumeration.Currency;
 import com.alkemy.wallet.enumeration.TypeTransaction;
 import com.alkemy.wallet.service.ITransactionService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import java.security.PublicKey;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 @RestController
 @RequestMapping("/transactions")
@@ -30,13 +36,22 @@ public class TransactionController {
     this.jwtUtils = jwtUtils;
   }
 
+
+  @ApiOperation(value = "Get transactions by id", notes = "Returns a list of transactions as per the User id")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully retrieved"),
+      @ApiResponse(code = 401, message = "Unauthorized - you are not an Admin"),
+      @ApiResponse(code = 404, message = "Not found - The user was not found")
+  })
   @GetMapping("/{userId}")
-  public ResponseEntity<List<TransactionDto>> getTransactionsById(@PathVariable Long userId)
+  public ResponseEntity<List<TransactionDto>> getTransactionsById(@PathVariable @ApiParam(name = " userId", value = "User id", example = "1") Long userId)
   {
     List<TransactionDto> transactionsList=transactionService.transactionsById(userId);
     return ResponseEntity.ok().body(transactionsList);
 
   }
+  @ApiOperation(value = "make a payment", notes = "Makes a payment and return the transaction")
+  @ApiResponse(code = 200, message = "Successfully retrieved")
   @PostMapping("/payment")
   public ResponseEntity<TransactionDto> makeAPayment(@RequestBody TransactionDto dto) {
 
@@ -44,22 +59,33 @@ public class TransactionController {
       TransactionDto transactionDto = transactionService.createTransaction(dto);
       return ResponseEntity.status(HttpStatus.CREATED).body(transactionDto);
     }
-
+  @ApiOperation(value = "Get transaction by id", notes = "Returns a transaction as per the Transaction id")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully retrieved"),
+      @ApiResponse(code = 401, message = "Unauthorized - you are not logged as the user that owns the transaction"),
+      @ApiResponse(code = 404, message = "Not found - The transaction was not found")
+  })
     @GetMapping("/{transactionId}")
 
-    public ResponseEntity<TransactionDto> getDetailTransaction(@PathVariable Long transactionId){
+    public ResponseEntity<TransactionDto> getDetailTransaction(@PathVariable @ApiParam(name = " transactionId", value = "Transaction id", example = "1") Long transactionId){
       TransactionDto transaction = this.transactionService.getDetailById(transactionId);
       return ResponseEntity.ok(transaction);
     }
 
-
+  @ApiOperation(value = "update transaction by id", notes = "update and returns the transaction as per the transaction Id")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully updated"),
+      @ApiResponse(code = 401, message = "Unauthorized - you are not logged as the user that owns the transaction"),
+      @ApiResponse(code = 404, message = "Not found - The transaction was not found")
+  })
     @PutMapping("/{id}")
-    public ResponseEntity<TransactionDto> updateTransaction(@PathVariable Long id, @RequestBody TransactionDto transactionDto) {
+    public ResponseEntity<TransactionDto> updateTransaction(@PathVariable @ApiParam(name = " id", value = "Transaction id", example = "1") Long id, @RequestBody TransactionDto transactionDto) {
       TransactionDto transactionUpdatedDto = transactionService.refreshValues(id, transactionDto);
       return ResponseEntity.ok().body(transactionUpdatedDto);
     }
 
-
+  @ApiOperation(value = "deposit", notes = "creates and returns a deposit")
+  @ApiResponse(code = 201, message = "Successfully created")
   @PostMapping("/transactions/deposit")
   public ResponseEntity<TransactionDto> deposit(@RequestBody TransactionDto dto){
     TransactionDto newDeposit = transactionService.createNewDeposit(dto);

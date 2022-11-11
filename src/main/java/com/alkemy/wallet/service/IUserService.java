@@ -14,7 +14,7 @@ public interface IUserService {
 
   UserDto findById(Long id);
 
-  List<AccountBasicDto> getAccountsBalance(Long id);
+  List<AccountBasicDto> getAccountsBalance();
 
   void delete(Long id);
 

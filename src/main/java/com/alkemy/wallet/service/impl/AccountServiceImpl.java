@@ -178,7 +178,7 @@ public class AccountServiceImpl implements IAccountService {
     // comparo si tiene una cuenta con la misma currency
     accounts.forEach(account -> {
       if (accounts.stream()
-          .anyMatch(i -> currencyDto.equals(i.getCurrency().name()))) {
+          .anyMatch(i -> currencyDto.getCurrency().equals(i.getCurrency()))) {
         throw new BadCredentialsException("The account of this currency already exists");
       }
     });

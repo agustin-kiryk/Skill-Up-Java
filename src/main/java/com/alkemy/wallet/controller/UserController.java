@@ -3,6 +3,10 @@ package com.alkemy.wallet.controller;
 import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.dto.UserRequestDto;
 import com.alkemy.wallet.service.IUserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,29 +29,48 @@ public class UserController {
   @Autowired
   IUserService iUserService;
 
-
+  @ApiOperation(value = "Get users", notes = "Returns a list of all users")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully retrieved"),
+      @ApiResponse(code = 401, message = "Unauthorized -you are not an admin"),
+  })
   @GetMapping()
   public ResponseEntity<List<UserDto>> getAll()
   {
     List<UserDto> users= userService.listAllUsers();
     return ResponseEntity.ok().body(users);
   }
-
+  @ApiOperation(value = "Get user", notes = "Returns a user as per the id")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully retrieved"),
+      @ApiResponse(code = 401, message = "Unauthorized -you are not an admin"),
+      @ApiResponse(code = 404, message = "Not found - The user was not found")
+  })
   @GetMapping("/{id}")
-  public ResponseEntity<UserDto> search(@PathVariable("id") Long id){
+  public ResponseEntity<UserDto> search(@PathVariable("id") @ApiParam(name = "id", value = "User id", example = "1") Long id){
     UserDto dto = iUserService.findById(id);
     return ResponseEntity.ok().body(dto);
   }
-
+  @ApiOperation(value = "Delete user", notes = "deletes a user as per the id")
+  @ApiResponses(value = {
+      @ApiResponse(code = 204, message = "Successfully deleted"),
+      @ApiResponse(code = 401, message = "Unauthorized -you are not logged as the user you want to delete"),
+      @ApiResponse(code = 404, message = "Not found - The user was not found")
+  })
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id){
+  public ResponseEntity<Void> deleteUser(@PathVariable("id")@ApiParam(name = "id", value = "User id", example = "1") Long id){
     this.userService.delete(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-
+  @ApiOperation(value = "Update user", notes = "updates and returns a user as per the id")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully updated"),
+      @ApiResponse(code = 401, message = "Unauthorized -you are not logged as the user you want to update"),
+      @ApiResponse(code = 404, message = "Not found - The user was not found")
+  })
   @PutMapping("/{id}")
-  public ResponseEntity<UserDto> updateUser(@PathVariable Long id,@RequestParam UserRequestDto updatedDto)
+  public ResponseEntity<UserDto> updateUser(@PathVariable @ApiParam(name = "id", value = "User id", example = "1") Long id,@RequestParam UserRequestDto updatedDto)
   {
     UserDto dto=userService.update(id,updatedDto);
     return ResponseEntity.ok().body(dto);
