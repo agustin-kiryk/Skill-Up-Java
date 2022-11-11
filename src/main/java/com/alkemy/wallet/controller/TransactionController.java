@@ -1,6 +1,8 @@
 package com.alkemy.wallet.controller;
 
+import com.alkemy.wallet.dto.SendTransferDto;
 import com.alkemy.wallet.dto.TransactionDto;
+import com.alkemy.wallet.enumeration.Currency;
 import com.alkemy.wallet.enumeration.TypeTransaction;
 import com.alkemy.wallet.mapper.exception.ParamNotFound;
 import com.alkemy.wallet.service.ITransactionService;
@@ -54,6 +56,12 @@ public class TransactionController {
   public ResponseEntity<TransactionDto> deposit(@RequestBody TransactionDto dto){
     TransactionDto newDeposit = transactionService.createNewDeposit(dto);
     return ResponseEntity.ok().body(dto);
+  }
+
+  @PostMapping("/sendUsd")
+  public ResponseEntity<TransactionDto> sendUsd(@RequestBody SendTransferDto transferDto){
+    TransactionDto newtransfer = this.transactionService.send(transferDto, Currency.USD);
+    return ResponseEntity.ok().body(newtransfer);
   }
 
 }
