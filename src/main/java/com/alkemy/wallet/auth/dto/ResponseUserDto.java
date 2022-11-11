@@ -2,6 +2,7 @@ package com.alkemy.wallet.auth.dto;
 
 import com.alkemy.wallet.entity.AccountEntity;
 import com.alkemy.wallet.entity.RoleEntity;
+import com.alkemy.wallet.enumeration.RoleName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ResponseUserDto {
   private String lastName;
   private String email;
   private String password;
-  private RoleEntity role;
+  private RoleName role;
   private List<AccountEntity> accounts;
   private Date creationDate;
   private Date updateDate;

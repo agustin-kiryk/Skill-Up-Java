@@ -91,7 +91,6 @@ public class UserMap {
     userEntity.setLastName(userDto.getLastName());
     userEntity.setEmail(userDto.getEmail());
     userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-    userEntity.setRole(userDto.getRole());
     userEntity.setUpdateDateTime(userDto.getUpdateDate());
     userEntity.setCreateDateTime(userDto.getCreationDate());
 
@@ -105,7 +104,7 @@ public class UserMap {
     dto.setLastName(entitySaved.getLastName());
     dto.setEmail(entitySaved.getEmail());
     //dto.setPassword(entitySaved.getPassword());
-    dto.setRole(entitySaved.getRole());
+    dto.setRole(entitySaved.getRole().getName());
     dto.setUpdateDate(entitySaved.getUpdateDateTime());
     dto.setCreationDate(entitySaved.getCreateDateTime());
     dto.setAccounts(entitySaved.getAccounts());//TODO: VER TRAER ID ACCOUNT CON ACOUNTREPO
