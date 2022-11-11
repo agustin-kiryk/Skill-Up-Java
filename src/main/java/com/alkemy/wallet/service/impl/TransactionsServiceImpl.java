@@ -1,6 +1,7 @@
 package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.dto.AccountBasicDto;
+import com.alkemy.wallet.dto.ResponseTransactionDto;
 import com.alkemy.wallet.dto.SendTransferDto;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.dto.TransactionRequestDto;
@@ -140,29 +141,29 @@ public class TransactionsServiceImpl implements ITransactionService {
   }
 
   @Override
-  public TransactionDto send(SendTransferDto transferDto, Currency currency) {
+  public TransactionDto send(SendTransferDto sendTransferDto,Currency currency) {
     String email = SecurityContextHolder.getContext().getAuthentication().getName();
     UserEntity user = userRepository.findByEmail(email);
-    AccountEntity account = this.accountRepository.findByCurrencyAndUser(currency,user);
-    AccountEntity receive = accountRepository.findById(transferDto.getDestinationAccounId()).orElseThrow(
+    AccountEntity account = this.accountRepository.findByCurrencyAndUser(currency, user);
+    AccountEntity receive = accountRepository.findById(sendTransferDto.getDestinationAccountId()).orElseThrow(
         ()->new ParamNotFound("the destination account does not exist"));
     if(user == null || account == null || receive == null){
       throw new ParamNotFound("invalid operation");
     }
-    if (transferDto.getAmount() <= 0){
+    if (sendTransferDto.getAmount() <= 0){
       throw new ParamNotFound("Amount must be greater than 0");
     }
-    if (transferDto.getAmount() > account.getTransactionLimit()) {
+    if (sendTransferDto.getAmount() > account.getTransactionLimit()) {
       throw new ParamNotFound("Amount must be less than the limit");
     }
     if (receive.getCurrency() != currency){
       throw new ParamNotFound("the destination account has a different currency");
     }
-    TransactionRequestDto originTransactionDto = new TransactionRequestDto();
-    originTransactionDto.setAmount(transferDto.getAmount());
-    originTransactionDto.setDescription(transferDto.getDescription());
-    originTransactionDto.setAccountId(account.getAccountId());
-    originTransactionDto.setTypeTransaction(TypeTransaction.PAYMENT);
+    TransactionRequestDto send = new TransactionRequestDto();
+    send.setAmount(transferDto.getAmount());
+    send.setDescription(transferDto.getDescription());
+    send.setAccountId(account.getAccountId());
+    send.setTypeTransaction(TypeTransaction.PAYMENT);
     TransactionDto transactionDto = save(originTransactionDto);
 
     TransactionRequestDto destinyTransactionDto = new TransactionRequestDto();
@@ -181,6 +182,28 @@ public class TransactionsServiceImpl implements ITransactionService {
 
 
 
+
+
+
+    return null;
+  }
+
+  @Override
+  public SendTransferDto sendUsd(Long senderId, Long accountId, Double amount) {
+    AccountEntity sendAccount = this.accountRepository.getReferenceByIdAndCurrency(senderId,Currency.USD);
+    AccountEntity receive = accountRepository.getReferenceByIdAndCurrency(accountId,Currency.USD);
+    if(receive == null || sendAccount == null || receive == null){
+      throw new ParamNotFound("invalid operation");
+    }
+    if (amount <= 0){
+      throw new ParamNotFound("Amount must be greater than 0");
+    }
+    if (receive.getCurrency() != Currency.USD){
+      throw new ParamNotFound("the destination account has a different currency");
+    }
+    TransactionEntity originTransaction = new TransactionEntity();
+    originTransaction.setAmount(amount);
+    originTransaction.setAccountId(sendAccount);
 
 
 

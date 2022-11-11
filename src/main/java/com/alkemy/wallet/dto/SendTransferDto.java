@@ -7,6 +7,6 @@ import lombok.Data;
 public class SendTransferDto {
   private Double amount;
   private String description;
-  private Long destinationAccounId;
+  private Long destinationAccountId;
 
 }

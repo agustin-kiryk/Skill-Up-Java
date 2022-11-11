@@ -1,18 +1,18 @@
 package com.alkemy.wallet.controller;
 
+import com.alkemy.wallet.auth.service.JwtUtils;
+import com.alkemy.wallet.dto.ResponseTransactionDto;
 import com.alkemy.wallet.dto.SendTransferDto;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.enumeration.Currency;
 import com.alkemy.wallet.enumeration.TypeTransaction;
-import com.alkemy.wallet.mapper.exception.ParamNotFound;
 import com.alkemy.wallet.service.ITransactionService;
-import java.security.PublicKey;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 @RestController
 @RequestMapping("/transactions")
@@ -22,6 +22,14 @@ public class TransactionController {
   RestExceptionHandler restExceptionHandler;
   @Autowired
   private ITransactionService transactionService;
+
+  private final JwtUtils jwtUtils;
+
+  public TransactionController(ITransactionService transactionService, JwtUtils jwtUtils) {
+    this.transactionService = transactionService;
+    this.jwtUtils = jwtUtils;
+  }
+
   @GetMapping("/{userId}")
   public ResponseEntity<List<TransactionDto>> getTransactionsById(@PathVariable Long userId)
   {
@@ -58,10 +66,11 @@ public class TransactionController {
     return ResponseEntity.ok().body(dto);
   }
 
-  @PostMapping("/sendUsd")
-  public ResponseEntity<TransactionDto> sendUsd(@RequestBody SendTransferDto transferDto){
-    TransactionDto newtransfer = this.transactionService.send(transferDto, Currency.USD);
-    return ResponseEntity.ok().body(newtransfer);
+  @PostMapping("/sendArs")
+  public ResponseEntity<TransactionDto> sendArs(@RequestBody SendTransferDto sendTransferDto){
+    TransactionDto result = transactionService.send(sendTransferDto, Currency.ARS);
+    return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
+
 
 }

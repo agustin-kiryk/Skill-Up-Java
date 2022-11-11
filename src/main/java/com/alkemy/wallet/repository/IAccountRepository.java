@@ -17,4 +17,6 @@ public interface IAccountRepository extends JpaRepository<AccountEntity , Long> 
   AccountEntity findByAccountId(Long accountId);
 
     AccountEntity findByCurrencyAndUser(Currency currency, UserEntity user);
+
+  AccountEntity getReferenceByIdAndCurrency(Long senderId, Currency usd);
 }

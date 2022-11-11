@@ -1,5 +1,6 @@
 package com.alkemy.wallet.service;
 
+import com.alkemy.wallet.dto.ResponseTransactionDto;
 import com.alkemy.wallet.dto.SendTransferDto;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.enumeration.Currency;
@@ -22,5 +23,7 @@ public interface ITransactionService {
 
   TransactionDto createNewDeposit(TransactionDto dto);
 
-  TransactionDto send(SendTransferDto transferDto, Currency usd);
+  TransactionDto send(SendTransferDto sendTransferDto, Currency currency );
+
+  SendTransferDto sendUsd(Long senderId, Long accountId, Double amount);
 }
