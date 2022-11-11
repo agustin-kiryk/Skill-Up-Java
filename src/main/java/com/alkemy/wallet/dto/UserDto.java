@@ -1,5 +1,6 @@
 package com.alkemy.wallet.dto;
 
+import com.alkemy.wallet.enumeration.RoleName;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.Data;
@@ -15,7 +16,7 @@ public class UserDto {
 
   private String email;
 
-  private RoleDto role;
+  private RoleName role;
 
   private List<@Valid AccountBasicDto> accounts;
 

@@ -41,7 +41,7 @@ public class UserDetailsCustomService implements UserDetailsService {
     if (userEntity == null) {
       throw new UsernameNotFoundException("username or password not found");
     }
-    return new User(userEntity.getEmail(), userEntity.getPassword(), Collections.emptyList());
+    return UserDetailsImpl.build(userEntity);
   }
 
   public ResponseUserDto save(@Valid ResponseUserDto userDto) throws RepeatedUsername {
