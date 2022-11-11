@@ -137,7 +137,6 @@ public class TransactionsServiceImpl implements ITransactionService {
     }
     TransactionEntity createdDeposit = ITransactionRepository.save(deposit);
     return transactionMap.transactionEntity2Dto(createdDeposit);
-
   }
 
   @Override
@@ -159,54 +158,20 @@ public class TransactionsServiceImpl implements ITransactionService {
     if (receive.getCurrency() != currency){
       throw new ParamNotFound("the destination account has a different currency");
     }
-    TransactionRequestDto send = new TransactionRequestDto();
-    send.setAmount(transferDto.getAmount());
-    send.setDescription(transferDto.getDescription());
+    TransactionDto send = new TransactionDto();
+    send.setAmount(sendTransferDto.getAmount());
+    send.setDescription(sendTransferDto.getDescription());
     send.setAccountId(account.getAccountId());
-    send.setTypeTransaction(TypeTransaction.PAYMENT);
-    TransactionDto transactionDto = save(originTransactionDto);
+    send.setType(TypeTransaction.PAYMENT);
+    TransactionDto transactionDto = createTransaction(send);
 
-    TransactionRequestDto destinyTransactionDto = new TransactionRequestDto();
-    destinyTransactionDto.setAmount(transferDto.getAmount());
-    destinyTransactionDto.setDescription(transferDto.getDescription());
-    destinyTransactionDto.setAccountId(account.getAccountId());
-    destinyTransactionDto.setTypeTransaction(TypeTransaction.INCOME);
-    save(destinyTransactionDto);
-
+    TransactionDto reciver = new TransactionDto();
+    reciver.setAmount(sendTransferDto.getAmount());
+    reciver.setDescription(sendTransferDto.getDescription());
+    reciver.setAccountId(account.getAccountId());
+    reciver.setType(TypeTransaction.INCOME);
+    createTransaction(reciver);
     return transactionDto;
-
-
-
-
-
-
-
-
-
-
-
-    return null;
   }
 
-  @Override
-  public SendTransferDto sendUsd(Long senderId, Long accountId, Double amount) {
-    AccountEntity sendAccount = this.accountRepository.getReferenceByIdAndCurrency(senderId,Currency.USD);
-    AccountEntity receive = accountRepository.getReferenceByIdAndCurrency(accountId,Currency.USD);
-    if(receive == null || sendAccount == null || receive == null){
-      throw new ParamNotFound("invalid operation");
-    }
-    if (amount <= 0){
-      throw new ParamNotFound("Amount must be greater than 0");
-    }
-    if (receive.getCurrency() != Currency.USD){
-      throw new ParamNotFound("the destination account has a different currency");
-    }
-    TransactionEntity originTransaction = new TransactionEntity();
-    originTransaction.setAmount(amount);
-    originTransaction.setAccountId(sendAccount);
-
-
-
-    return null;
-  }
 }

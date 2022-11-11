@@ -25,5 +25,4 @@ public interface ITransactionService {
 
   TransactionDto send(SendTransferDto sendTransferDto, Currency currency );
 
-  SendTransferDto sendUsd(Long senderId, Long accountId, Double amount);
 }
