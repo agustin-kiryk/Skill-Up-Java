@@ -139,7 +139,7 @@ public class AccountServiceImpl implements IAccountService {
     accountEntity.setCurrency(currencyDto.getCurrency());
     accountEntity.setCreationDate(new Date());
     accountEntity.setBalance(0.0);
-    if (currencyDto.equals("ARS")) {
+    if (currencyDto.getCurrency().equals(Currency.ARS)) {
       accountEntity.setTransactionLimit(300000.00);
     } else {
       accountEntity.setTransactionLimit(1000.00);
@@ -186,6 +186,8 @@ public class AccountServiceImpl implements IAccountService {
     UserEntity log = this.IUserRepository.findByEmail(email);
     account.setUser(log);
     this.IAccountRepository.save(account);
+    log.addAccount(account);
+    IUserRepository.save(log);
     return HttpStatus.CREATED.getReasonPhrase();
 
   }

@@ -109,7 +109,7 @@ public class UserMap {
     dto.setRole(entitySaved.getRole().getName());
     dto.setUpdateDate(entitySaved.getUpdateDateTime());
     dto.setCreationDate(entitySaved.getCreateDateTime());
-    dto.setAccounts(entitySaved.getAccounts());//TODO: VER TRAER ID ACCOUNT CON ACOUNTREPO
+    dto.setAccounts(accountMap.accountEntityList2DtoList(entitySaved.getAccounts()));//TODO: VER TRAER ID ACCOUNT CON ACOUNTREPO
     return dto;
   }
 }

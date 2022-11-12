@@ -1,5 +1,6 @@
 package com.alkemy.wallet.auth.dto;
 
+import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.entity.AccountEntity;
 import com.alkemy.wallet.entity.RoleEntity;
 import com.alkemy.wallet.enumeration.RoleName;
@@ -24,7 +25,7 @@ public class ResponseUserDto {
   private String email;
   private String password;
   private RoleName role;
-  private List<AccountEntity> accounts;
+  private List<AccountDto> accounts;
   private Date creationDate;
   private Date updateDate;
   private String jwt;

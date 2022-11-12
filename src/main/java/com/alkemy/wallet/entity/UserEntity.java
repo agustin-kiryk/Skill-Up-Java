@@ -64,12 +64,12 @@ public class UserEntity implements Serializable {
 
   private List<AccountEntity> accounts = new ArrayList<>();
 
-  private void addAccount(AccountEntity account) {
+  public void addAccount(AccountEntity account) {
     accounts.add(account);
 
   }
 
-  private void deleteAccount(AccountEntity account) {
+  public void deleteAccount(AccountEntity account) {
     accounts.remove(account);
 
   }

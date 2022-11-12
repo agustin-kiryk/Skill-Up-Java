@@ -55,8 +55,12 @@ public class UserDetailsCustomService implements UserDetailsService {
 
     UserEntity entitySaved = this.IUserRepository.save(entity);
 
+
     this.accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(Currency.USD));
     this.accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(Currency.ARS));
+
+
+
     ResponseUserDto responseUserDto = userMap.userAuthEntity2Dto(entitySaved);
 
 
