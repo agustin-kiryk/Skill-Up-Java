@@ -52,11 +52,8 @@ public class AccountController {
     List<AccountDto> listAccounts = this.iAccountService.findAllByUser(userId);
     return ResponseEntity.ok().body(listAccounts);
   }
-  @ApiOperation(value="Get balance by id",notes="returns the balance of the accounts of an user as per the user id")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully retrieved"),
-      @ApiResponse(code = 404, message = "Not found - The user was not found")
-  })
+  @ApiOperation(value="Get balance",notes="returns the balance of the accounts of a logged user")
+  @ApiResponse(code = 200, message = "Successfully retrieved")
   @GetMapping("/balance")
   public ResponseEntity<List<AccountBasicDto>> getBalance(){
 
