@@ -35,7 +35,7 @@ public class TransactionEntity {
 
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "USER_ID")
-  private UserEntity userEntity;
+  private UserEntity user;
 
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "ACCOUNT_ID")

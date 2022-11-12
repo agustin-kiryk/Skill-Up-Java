@@ -1,11 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
-import com.alkemy.wallet.dto.AccountBasicDto;
-import com.alkemy.wallet.dto.ResponseTransactionDto;
-import com.alkemy.wallet.dto.SendTransferDto;
-import com.alkemy.wallet.dto.TransactionDto;
-import com.alkemy.wallet.dto.TransactionRequestDto;
-import com.alkemy.wallet.dto.UserDto;
+import com.alkemy.wallet.dto.*;
 import com.alkemy.wallet.entity.AccountEntity;
 import com.alkemy.wallet.entity.TransactionEntity;
 import com.alkemy.wallet.entity.UserEntity;
@@ -20,14 +15,16 @@ import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.ITransactionService;
 import com.alkemy.wallet.service.IUserService;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class TransactionsServiceImpl implements ITransactionService {
@@ -75,7 +72,7 @@ public class TransactionsServiceImpl implements ITransactionService {
       transactionEntity.setAmount(dto.getAmount());
       transactionEntity.setType(dto.getType());
       transactionEntity.setAccountId(accountEntity);
-      transactionEntity.setUserEntity(accountEntity.getUser());
+      transactionEntity.setUser(accountEntity.getUser());
       transactionEntity.setDescription(dto.getDescription());
       transactionEntity.setTransactionDate(new Date());
       this.accountService.updateBalance(dto.getAccountId(),dto.getAmount());
@@ -110,7 +107,7 @@ public class TransactionsServiceImpl implements ITransactionService {
     }
     String email = SecurityContextHolder.getContext().getAuthentication().getName();
     UserEntity user = userRepository.findByEmail(email);
-    if (!Objects.equals(user.getUserId(), transaction.get().getUserEntity().getUserId())) {
+    if (!Objects.equals(user.getUserId(), transaction.get().getUser().getUserId())) {
       throw new ParamNotFound("the Transaction id don't below to user");
     }
 
@@ -127,7 +124,7 @@ public class TransactionsServiceImpl implements ITransactionService {
 
     String email = SecurityContextHolder.getContext().getAuthentication().getName();
     UserEntity user = userRepository.findByEmail(email);
-    if (!Objects.equals(user.getUserId(), transaction.get().getUserEntity().getUserId())) {
+    if (!Objects.equals(user.getUserId(), transaction.get().getUser().getUserId())) {
       throw new ParamNotFound("the Transaction id don't below to user");
     }
     transactionMap.updateDescription(transaction, transactionDto.getDescription());
@@ -188,6 +185,29 @@ public class TransactionsServiceImpl implements ITransactionService {
     createTransaction(reciver);
 
     return transactionDto;
+  }
+
+  @Override
+  public PageDto<TransactionDto> findAllTransaction(Pageable page, HttpServletRequest request, Long id) {
+    PageDto<TransactionDto> pageDto = new PageDto<>();
+    Map<String,String> links = new HashMap<>();
+    List<TransactionDto> listDto = new ArrayList<>();
+
+    UserEntity user = userRepository.findByUserId(id);
+
+    Page<TransactionEntity> elements =  ITransactionRepository.findAllByUser(user,page);
+
+    elements.getContent().forEach(element -> listDto.add(transactionMap.transactionEntity2Dto(element)));
+    links.put("next",elements.hasNext()?makePaginationLink(request,page.getPageNumber()+1):"");
+    links.put("previous",elements.hasPrevious()?makePaginationLink(request,page.getPageNumber()-1):"");
+
+    pageDto.setContent(listDto);
+    pageDto.setLinks(links);
+
+    return pageDto;
+  }
+  private String makePaginationLink(HttpServletRequest request, int page) {
+    return String.format("%s?page=%d", request.getRequestURI(), page);
   }
 
 }

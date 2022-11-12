@@ -1,6 +1,7 @@
 package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.auth.service.JwtUtils;
+import com.alkemy.wallet.dto.PageDto;
 import com.alkemy.wallet.dto.ResponseTransactionDto;
 import com.alkemy.wallet.dto.SendTransferDto;
 import com.alkemy.wallet.dto.TransactionDto;
@@ -15,6 +16,8 @@ import java.security.PublicKey;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -105,6 +108,14 @@ public class TransactionController {
   public ResponseEntity<TransactionDto> sendUsd(@RequestBody SendTransferDto sendTransferDto){
     TransactionDto result = transactionService.send(sendTransferDto, Currency.USD);
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
+  }
+
+  @GetMapping("/user")
+  public ResponseEntity<PageDto<TransactionDto>> getAllTransactionsByUserIdPaginated(@PageableDefault(size = 10 ) Pageable page, HttpServletRequest request, @RequestParam Long id)
+  {
+    PageDto<TransactionDto> pageDto = transactionService.findAllTransaction(page,request,id);
+    return ResponseEntity.ok().body(pageDto);
+
   }
 
 
