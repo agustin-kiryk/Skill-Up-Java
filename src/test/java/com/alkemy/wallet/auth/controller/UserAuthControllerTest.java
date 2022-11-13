@@ -41,6 +41,25 @@ class UserAuthControllerTest {
     return credentials;
   }
 
+  public JSONObject newUser() {
+    JSONObject user = new JSONObject();
+    user.put("firstName", "Stuart");
+    user.put("lastName", "Little");
+    user.put("email", "Stuart.T@gmail.com");
+    user.put("password", "12345678");
+    return user;
+  }
+
+  public JSONObject newUserWithRepeatedEmail() {
+    JSONObject user = new JSONObject();
+    user.put("firstName", "ana");
+    user.put("lastName", "rodriguez");
+    user.put("email", "Stuart.T@gmail.com");
+    user.put("password", "12345678");
+    return user;
+  }
+
+
   @Test
   public void signInWithValidateCredential() throws Exception {
     JSONObject credentials = credentials();
@@ -63,6 +82,22 @@ class UserAuthControllerTest {
     mvc.perform(MockMvcRequestBuilders.post("/auth/login").accept(MediaType.APPLICATION_JSON)
             .content(credentials.toString().getBytes()).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void signUpWithValidateUser() throws Exception{
+    JSONObject credentials = newUser();
+    mvc.perform(MockMvcRequestBuilders.post("/auth/register").accept(MediaType.APPLICATION_JSON)
+            .content(credentials.toString().getBytes()).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated());
+  }
+
+  @Test
+  public void signUpWithRepeatedUsername() throws Exception{
+    JSONObject credentials = newUserWithRepeatedEmail();
+    mvc.perform(MockMvcRequestBuilders.post("/auth/register").accept(MediaType.APPLICATION_JSON)
+            .content(credentials.toString().getBytes()).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isImUsed());
   }
 
 
