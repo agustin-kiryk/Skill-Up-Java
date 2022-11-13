@@ -111,25 +111,27 @@ public class UserServiceImpl implements IUserService {
     UserDto result=userMap.userEntity2Dto(entitySaved);
     return result;
   }
-  @Override
-  public PageDto<UserDto> findAllUsers(Pageable pageable, HttpServletRequest request) {
-    PageDto<UserDto> pageDto = new PageDto<>();
-    Map<String,String> links = new HashMap<>();
-    List<UserDto> listDtos = new ArrayList<>();
-    Page<UserEntity> elements = IUserRepository.findAll(pageable);
-
-    elements.getContent().forEach(element -> listDtos.add(UserMap.userEntity2DTO(element)));
-    links.put("next",elements.hasNext()?makePaginationLink(request,pageable.getPageNumber()+1):"");
-    links.put("previous",elements.hasPrevious()?makePaginationLink(request,pageable.getPageNumber()-1):"");
-
-    pageDto.setContent(listDtos);
-    pageDto.setLinks(links);
-
-    return pageDto;
+  
+  
+  public PageDto<UserDto> findAllUsers(org.springdoc.core.converters.models.Pageable pageable,
+      HttpServletRequest request) {
+        PageDto<UserDto> pageDto = new PageDto<>();
+        Map<String,String> links = new HashMap<>();
+        List<UserDto> listDtos = new ArrayList<>();
+        Page<UserEntity> elements = IUserRepository.findAll(pageable);
+    
+        elements.getContent().forEach(element -> listDtos.add(UserMap.userEntity2DTO(element)));
+        links.put("next",elements.hasNext()?makePaginationLink(request,pageable.getPage()+1):"");
+        links.put("previous",elements.hasPrevious()?makePaginationLink(request,pageable.getPage()-1):"");
+    
+        pageDto.setContent(listDtos);
+        pageDto.setLinks(links);
+    
+        return pageDto;
   }
   private String makePaginationLink(HttpServletRequest request, int page) {
     return String.format("%s?page=%d", request.getRequestURI(), page);
-}
+  }
 
  
  }
