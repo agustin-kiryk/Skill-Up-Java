@@ -47,35 +47,40 @@ public class TransactionController {
       @ApiResponse(code = 401, message = "Unauthorized - you are not an Admin"),
       @ApiResponse(code = 404, message = "Not found - The user was not found")
   })
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/{userId}")
-  public ResponseEntity<List<TransactionDto>> getTransactionsById(@PathVariable @ApiParam(name = " userId", value = "User id", example = "1") Long userId)
-  {
-    List<TransactionDto> transactionsList=transactionService.transactionsById(userId);
+  public ResponseEntity<List<TransactionDto>> getTransactionsById(
+      @PathVariable @ApiParam(name = " userId", value = "User id", example = "1") Long userId) {
+    List<TransactionDto> transactionsList = transactionService.transactionsById(userId);
     return ResponseEntity.ok().body(transactionsList);
 
   }
+
   @ApiOperation(value = "make a payment", notes = "Makes a payment and return the transaction")
   @ApiResponse(code = 200, message = "Successfully retrieved")
   @PostMapping("/payment")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER')")
   public ResponseEntity<TransactionDto> makeAPayment(@RequestBody TransactionDto dto) {
 
-      dto.setType(TypeTransaction.PAYMENT);
-      TransactionDto transactionDto = transactionService.createTransaction(dto);
-      return ResponseEntity.status(HttpStatus.CREATED).body(transactionDto);
-    }
+    dto.setType(TypeTransaction.PAYMENT);
+    TransactionDto transactionDto = transactionService.createTransaction(dto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(transactionDto);
+  }
+
   @ApiOperation(value = "Get transaction by id", notes = "Returns a transaction as per the Transaction id")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved"),
       @ApiResponse(code = 401, message = "Unauthorized - you are not logged as the user that owns the transaction"),
       @ApiResponse(code = 404, message = "Not found - The transaction was not found")
   })
-    @GetMapping("/{transactionId}")
+  @PreAuthorize("hasRole('USER')")
+  @GetMapping("/{transactionId}")
 
-    public ResponseEntity<TransactionDto> getDetailTransaction(@PathVariable @ApiParam(name = " transactionId", value = "Transaction id", example = "1") Long transactionId){
-      TransactionDto transaction = this.transactionService.getDetailById(transactionId);
-      return ResponseEntity.ok(transaction);
-    }
+  public ResponseEntity<TransactionDto> getDetailTransaction(
+      @PathVariable @ApiParam(name = " transactionId", value = "Transaction id", example = "1") Long transactionId) {
+    TransactionDto transaction = this.transactionService.getDetailById(transactionId);
+    return ResponseEntity.ok(transaction);
+  }
 
   @ApiOperation(value = "update transaction by id", notes = "update and returns the transaction as per the transaction Id")
   @ApiResponses(value = {
@@ -83,37 +88,44 @@ public class TransactionController {
       @ApiResponse(code = 401, message = "Unauthorized - you are not logged as the user that owns the transaction"),
       @ApiResponse(code = 404, message = "Not found - The transaction was not found")
   })
-    @PutMapping("/{id}")
-    public ResponseEntity<TransactionDto> updateTransaction(@PathVariable @ApiParam(name = " id", value = "Transaction id", example = "1") Long id, @RequestBody TransactionDto transactionDto) {
-      TransactionDto transactionUpdatedDto = transactionService.refreshValues(id, transactionDto);
-      return ResponseEntity.ok().body(transactionUpdatedDto);
-    }
+  @PreAuthorize("hasRole('USER')")
+  @PutMapping("/{id}")
+  public ResponseEntity<TransactionDto> updateTransaction(
+      @PathVariable @ApiParam(name = " id", value = "Transaction id", example = "1") Long id,
+      @RequestBody TransactionDto transactionDto) {
+    TransactionDto transactionUpdatedDto = transactionService.refreshValues(id, transactionDto);
+    return ResponseEntity.ok().body(transactionUpdatedDto);
+  }
 
   @ApiOperation(value = "deposit", notes = "creates and returns a deposit")
   @ApiResponse(code = 201, message = "Successfully created")
+  @PreAuthorize("hasRole('USER')")
   @PostMapping("/transactions/deposit")
-  public ResponseEntity<TransactionDto> deposit(@RequestBody TransactionDto dto){
+  public ResponseEntity<TransactionDto> deposit(@RequestBody TransactionDto dto) {
     TransactionDto newDeposit = transactionService.createNewDeposit(dto);
     return ResponseEntity.ok().body(dto);
   }
 
+  @PreAuthorize("hasRole('USER')")
   @PostMapping("/sendArs")
-  public ResponseEntity<TransactionDto> sendArs(@RequestBody SendTransferDto sendTransferDto){
+  public ResponseEntity<TransactionDto> sendArs(@RequestBody SendTransferDto sendTransferDto) {
     TransactionDto result = transactionService.send(sendTransferDto, Currency.ARS);
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
-
+  @PreAuthorize("hasRole('USER')")
   @PostMapping("/sendUsd")
-  public ResponseEntity<TransactionDto> sendUsd(@RequestBody SendTransferDto sendTransferDto){
+  public ResponseEntity<TransactionDto> sendUsd(@RequestBody SendTransferDto sendTransferDto) {
     TransactionDto result = transactionService.send(sendTransferDto, Currency.USD);
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/user")
-  public ResponseEntity<PageDto<TransactionDto>> getAllTransactionsByUserIdPaginated(@PageableDefault(size = 10 ) Pageable page, HttpServletRequest request, @RequestParam Long id)
-  {
-    PageDto<TransactionDto> pageDto = transactionService.findAllTransaction(page,request,id);
+  public ResponseEntity<PageDto<TransactionDto>> getAllTransactionsByUserIdPaginated(
+      @PageableDefault(size = 10) Pageable page, HttpServletRequest request,
+      @RequestParam Long id) {
+    PageDto<TransactionDto> pageDto = transactionService.findAllTransaction(page, request, id);
     return ResponseEntity.ok().body(pageDto);
 
   }

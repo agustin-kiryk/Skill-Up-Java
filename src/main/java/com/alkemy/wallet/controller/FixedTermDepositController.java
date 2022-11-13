@@ -13,22 +13,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("investments")
 public class FixedTermDepositController {
 
-    @Autowired
-    private IFixedTermDepositService fixedTermDepositService;
+  @Autowired
+  private IFixedTermDepositService fixedTermDepositService;
 
-    @PostMapping("/fixedDeposit")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<FixedTermDepositDto> CreateNewFixedDeposit(@RequestParam String currency,
-            @RequestBody FixedTermDepositDto dto) {
-        FixedTermDepositDto newFixedTerm = fixedTermDepositService.createNewFixedTerm(currency,dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newFixedTerm);
-    }
+  @PostMapping("/fixedDeposit")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<FixedTermDepositDto> CreateNewFixedDeposit(@RequestParam String currency,
+      @RequestBody FixedTermDepositDto dto) {
+    FixedTermDepositDto newFixedTerm = fixedTermDepositService.createNewFixedTerm(currency, dto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(newFixedTerm);
+  }
 
-    @GetMapping("/fixedTermDeposit/simulate")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<FixedTermSimulationDto> simulateFixedTerm(@RequestBody FixedTermSimulationDto dto){
+  @GetMapping("/fixedTermDeposit/simulate")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<FixedTermSimulationDto> simulateFixedTerm(
+      @RequestBody FixedTermSimulationDto dto) {
 
-        FixedTermSimulationDto simulation = fixedTermDepositService.simulateFixedTermDeposit(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(simulation);
-    }
+    FixedTermSimulationDto simulation = fixedTermDepositService.simulateFixedTermDeposit(dto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(simulation);
+  }
 }
