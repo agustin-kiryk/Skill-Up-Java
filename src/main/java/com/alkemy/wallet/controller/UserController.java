@@ -55,7 +55,7 @@ public class UserController {
       @ApiResponse(code = 401, message = "Unauthorized -you are not an admin"),
       @ApiResponse(code = 404, message = "Not found - The user was not found")
   })
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @GetMapping("/{id}")
   public ResponseEntity<UserDto> search(
       @PathVariable("id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
@@ -69,7 +69,7 @@ public class UserController {
       @ApiResponse(code = 401, message = "Unauthorized -you are not logged as the user you want to delete"),
       @ApiResponse(code = 404, message = "Not found - The user was not found")
   })
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteUser(
       @PathVariable("id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
@@ -83,7 +83,7 @@ public class UserController {
       @ApiResponse(code = 401, message = "Unauthorized -you are not logged as the user you want to update"),
       @ApiResponse(code = 404, message = "Not found - The user was not found")
   })
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @PutMapping("/{id}")
   public ResponseEntity<UserDto> updateUser(
       @PathVariable @ApiParam(name = "id", value = "User id", example = "1") Long id,

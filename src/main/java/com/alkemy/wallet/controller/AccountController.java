@@ -59,7 +59,7 @@ public class AccountController {
 
   @ApiOperation(value = "Get balance", notes = "returns the balance of the accounts of a logged user")
   @ApiResponse(code = 200, message = "Successfully retrieved")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @GetMapping("/balance")
   public ResponseEntity<List<AccountBasicDto>> getBalance() {
 
@@ -69,7 +69,7 @@ public class AccountController {
 
   @ApiOperation(value = "create account", notes = "creates and return and account")
   @ApiResponse(code = 201, message = "Successfully created")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @PostMapping()
   public ResponseEntity<Object> createAccount(
       @RequestBody CurrencyDto currency) {
@@ -83,7 +83,7 @@ public class AccountController {
       @ApiResponse(code = 200, message = "Successfully retrieved"),
       @ApiResponse(code = 401, message = "Unauthorized- you are not logged as the correct User")
   })
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @PutMapping("/{id}")
   public ResponseEntity<AccountDto> updateAccount(
       @PathVariable @ApiParam(name = "id", value = "Account id", example = "1") Long id,

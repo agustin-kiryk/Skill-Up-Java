@@ -59,7 +59,7 @@ public class TransactionController {
   @ApiOperation(value = "make a payment", notes = "Makes a payment and return the transaction")
   @ApiResponse(code = 200, message = "Successfully retrieved")
   @PostMapping("/payment")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public ResponseEntity<TransactionDto> makeAPayment(@RequestBody TransactionDto dto) {
 
     dto.setType(TypeTransaction.PAYMENT);
@@ -73,7 +73,7 @@ public class TransactionController {
       @ApiResponse(code = 401, message = "Unauthorized - you are not logged as the user that owns the transaction"),
       @ApiResponse(code = 404, message = "Not found - The transaction was not found")
   })
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @GetMapping("/{transactionId}")
 
   public ResponseEntity<TransactionDto> getDetailTransaction(
@@ -88,7 +88,7 @@ public class TransactionController {
       @ApiResponse(code = 401, message = "Unauthorized - you are not logged as the user that owns the transaction"),
       @ApiResponse(code = 404, message = "Not found - The transaction was not found")
   })
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @PutMapping("/{id}")
   public ResponseEntity<TransactionDto> updateTransaction(
       @PathVariable @ApiParam(name = " id", value = "Transaction id", example = "1") Long id,
@@ -99,21 +99,21 @@ public class TransactionController {
 
   @ApiOperation(value = "deposit", notes = "creates and returns a deposit")
   @ApiResponse(code = 201, message = "Successfully created")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @PostMapping("/transactions/deposit")
   public ResponseEntity<TransactionDto> deposit(@RequestBody TransactionDto dto) {
     TransactionDto newDeposit = transactionService.createNewDeposit(dto);
     return ResponseEntity.ok().body(dto);
   }
 
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @PostMapping("/sendArs")
   public ResponseEntity<TransactionDto> sendArs(@RequestBody SendTransferDto sendTransferDto) {
     TransactionDto result = transactionService.send(sendTransferDto, Currency.ARS);
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   @PostMapping("/sendUsd")
   public ResponseEntity<TransactionDto> sendUsd(@RequestBody SendTransferDto sendTransferDto) {
     TransactionDto result = transactionService.send(sendTransferDto, Currency.USD);

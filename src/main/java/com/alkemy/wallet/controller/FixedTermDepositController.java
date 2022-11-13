@@ -17,7 +17,7 @@ public class FixedTermDepositController {
   private IFixedTermDepositService fixedTermDepositService;
 
   @PostMapping("/fixedDeposit")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public ResponseEntity<FixedTermDepositDto> CreateNewFixedDeposit(@RequestParam String currency,
       @RequestBody FixedTermDepositDto dto) {
     FixedTermDepositDto newFixedTerm = fixedTermDepositService.createNewFixedTerm(currency, dto);
@@ -25,7 +25,7 @@ public class FixedTermDepositController {
   }
 
   @GetMapping("/fixedTermDeposit/simulate")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public ResponseEntity<FixedTermSimulationDto> simulateFixedTerm(
       @RequestBody FixedTermSimulationDto dto) {
 
