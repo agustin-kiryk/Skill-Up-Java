@@ -25,6 +25,6 @@ public interface IUserService {
 
   UserDto update(Long id, UserRequestDto updatedDto);
 
-  PageDto<UserDto> findAllUsers(Pageable pageable, HttpServletRequest request);
 
+  PageDto<UserDto> findAllUsers(org.springframework.data.domain.Pageable pageable, HttpServletRequest request);
 }

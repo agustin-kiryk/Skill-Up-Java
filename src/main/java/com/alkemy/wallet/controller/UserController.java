@@ -83,12 +83,10 @@ public class UserController {
     return ResponseEntity.ok().body(dto);
   }
   @GetMapping("/{userspaginated}")
-  public ResponseEntity<PageDto<UserDto>> getAllUsers(@PageableDefault(size=10) Pageable pageable, HttpServletRequest request) {
+  public ResponseEntity<PageDto<UserDto>> getAllUsers (@PageableDefault(size=10) Pageable pageable, HttpServletRequest request) {
     PageDto<UserDto> result = iUserService.findAllUsers(pageable, request);
     return ResponseEntity.ok().body(result);
   }
-
-
 
 }
 
