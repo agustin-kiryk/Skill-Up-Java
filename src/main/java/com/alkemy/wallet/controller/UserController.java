@@ -94,9 +94,9 @@ public class UserController {
 
   @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/{userspaginated}")
-  public ResponseEntity<PageDto<UserDto>> getAllUsers(@PageableDefault(size = 10) Pageable pageable,
+  public ResponseEntity<PageDto<UserDto>> getAllUsers(@PageableDefault(size = 10) Pageable page,
       HttpServletRequest request) {
-    PageDto<UserDto> result = iUserService.findAllUsers(pageable, request);
+    PageDto<UserDto> result = iUserService.findAllUsers(page, request);
     return ResponseEntity.ok().body(result);
   }
 

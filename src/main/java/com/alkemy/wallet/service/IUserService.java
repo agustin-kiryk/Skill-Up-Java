@@ -8,8 +8,8 @@ import com.alkemy.wallet.dto.UserRequestDto;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.Pageable;
 
-import org.springdoc.core.converters.models.Pageable;
 
 public interface IUserService {
 
@@ -26,5 +26,5 @@ public interface IUserService {
   UserDto update(Long id, UserRequestDto updatedDto);
 
 
-  PageDto<UserDto> findAllUsers(org.springframework.data.domain.Pageable pageable, HttpServletRequest request);
+  PageDto<UserDto> findAllUsers(Pageable pageable, HttpServletRequest request);
 }

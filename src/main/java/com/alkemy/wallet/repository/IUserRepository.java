@@ -4,8 +4,9 @@ package com.alkemy.wallet.repository;
 import com.alkemy.wallet.entity.UserEntity;
 import java.util.List;
 
-import org.springdoc.core.converters.models.Pageable;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

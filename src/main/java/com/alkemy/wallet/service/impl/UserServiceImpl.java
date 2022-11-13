@@ -27,8 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -113,16 +111,16 @@ public class UserServiceImpl implements IUserService {
   }
   
   
-  public PageDto<UserDto> findAllUsers(org.springdoc.core.converters.models.Pageable pageable,
+  public PageDto<UserDto> findAllUsers(Pageable page,
       HttpServletRequest request) {
         PageDto<UserDto> pageDto = new PageDto<>();
         Map<String,String> links = new HashMap<>();
         List<UserDto> listDtos = new ArrayList<>();
-        Page<UserEntity> elements = IUserRepository.findAll(pageable);
+        Page<UserEntity> elements = IUserRepository.findAll(page);
     
         elements.getContent().forEach(element -> listDtos.add(UserMap.userEntity2DTO(element)));
-        links.put("next",elements.hasNext()?makePaginationLink(request,pageable.getPage()+1):"");
-        links.put("previous",elements.hasPrevious()?makePaginationLink(request,pageable.getPage()-1):"");
+        links.put("next",elements.hasNext()?makePaginationLink(request,page.getPageNumber()+1):"");
+        links.put("previous",elements.hasPrevious()?makePaginationLink(request,page.getPageNumber()-1):"");
     
         pageDto.setContent(listDtos);
         pageDto.setLinks(links);
