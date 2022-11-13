@@ -13,8 +13,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.catalina.User;
-import org.springdoc.core.converters.models.Pageable;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,8 +82,8 @@ public class UserController {
     UserDto dto=userService.update(id,updatedDto);
     return ResponseEntity.ok().body(dto);
   }
-  @GetMapping()
-  public ResponseEntity<PageDto<UserDto>> getAllUsers(@PageableDefault(size=10)Pageable pageable, HttpServletRequest request) {
+  @GetMapping("/{userspaginated}")
+  public ResponseEntity<PageDto<UserDto>> getAllUsers(@PageableDefault(size=10) Pageable pageable, HttpServletRequest request) {
     PageDto<UserDto> result = iUserService.findAllUsers(pageable, request);
     return ResponseEntity.ok().body(result);
   }
