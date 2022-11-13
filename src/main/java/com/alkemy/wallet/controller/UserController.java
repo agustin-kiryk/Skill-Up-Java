@@ -1,5 +1,6 @@
 package com.alkemy.wallet.controller;
 
+import com.alkemy.wallet.dto.PageDto;
 import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.dto.UserRequestDto;
 import com.alkemy.wallet.service.IUserService;
@@ -8,8 +9,13 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.catalina.User;
+import org.springdoc.core.converters.models.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -75,7 +81,11 @@ public class UserController {
     UserDto dto=userService.update(id,updatedDto);
     return ResponseEntity.ok().body(dto);
   }
-
+  @GetMapping()
+  public ResponseEntity<PageDto<UserDto>> getAllUsers(@PageableDefault(size=10)Pageable pageable, HttpServletRequest request) {
+    PageDto<UserDto> result = iUserService.findAllUsers(pageable, request);
+    return ResponseEntity.ok().body(result);
+  }
 
 
 

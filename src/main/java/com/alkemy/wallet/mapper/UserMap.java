@@ -112,4 +112,13 @@ public class UserMap {
     dto.setAccounts(accountMap.accountEntityList2DtoList(entitySaved.getAccounts()));//TODO: VER TRAER ID ACCOUNT CON ACOUNTREPO
     return dto;
   }
+  public static UserDto userEntity2DTO(UserEntity entitySaved) {
+    UserDto dto = new UserDto();
+    dto.setId(entitySaved.getUserId());
+    dto.setFirstName(entitySaved.getFirstName());
+    dto.setLastName(entitySaved.getLastName());
+    dto.setEmail(entitySaved.getEmail());
+
+    return dto;
+  }
 }
