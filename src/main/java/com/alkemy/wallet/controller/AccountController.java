@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +48,7 @@ public class AccountController {
       @ApiResponse(code = 401, message = "Unauthorized-you are not an Admin or you are not logged as the correct User"),
       @ApiResponse(code = 404, message = "Not found - The user was not found")
   })
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/{userId}")
   public ResponseEntity<List<AccountDto>> getAccountById(@PathVariable("userId")@ApiParam(name = "userId", value = "User id", example = "1") Long userId){
     List<AccountDto> listAccounts = this.iAccountService.findAllByUser(userId);
@@ -54,6 +56,7 @@ public class AccountController {
   }
   @ApiOperation(value="Get balance",notes="returns the balance of the accounts of a logged user")
   @ApiResponse(code = 200, message = "Successfully retrieved")
+  @PreAuthorize("hasRole('USER')")
   @GetMapping("/balance")
   public ResponseEntity<List<AccountBasicDto>> getBalance(){
 
@@ -63,6 +66,7 @@ public class AccountController {
 
   @ApiOperation(value="create account",notes="creates and return and account")
   @ApiResponse(code = 201, message = "Successfully created")
+  @PreAuthorize("hasRole('USER')")
   @PostMapping()
   public ResponseEntity<Object> createAccount(
       @RequestBody CurrencyDto currency)
@@ -77,6 +81,7 @@ public class AccountController {
       @ApiResponse(code = 200, message = "Successfully retrieved"),
       @ApiResponse(code = 401, message = "Unauthorized- you are not logged as the correct User")
   })
+  @PreAuthorize("hasRole('USER')")
   @PutMapping("/{id}")
   public ResponseEntity<AccountDto> updateAccount(@PathVariable @ApiParam(name = "id", value = "Account id", example = "1") Long id,@RequestParam @ApiParam(name = "transactionLimit", value = "transaction limit", example = "5000")  Double transactionLimitUpdated)
   {
