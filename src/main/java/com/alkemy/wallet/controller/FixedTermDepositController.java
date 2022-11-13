@@ -6,6 +6,7 @@ import com.alkemy.wallet.service.IFixedTermDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,7 @@ public class FixedTermDepositController {
     private IFixedTermDepositService fixedTermDepositService;
 
     @PostMapping("/fixedDeposit")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<FixedTermDepositDto> CreateNewFixedDeposit(@RequestParam String currency,
             @RequestBody FixedTermDepositDto dto) {
         FixedTermDepositDto newFixedTerm = fixedTermDepositService.createNewFixedTerm(currency,dto);
@@ -23,6 +25,7 @@ public class FixedTermDepositController {
     }
 
     @GetMapping("/fixedTermDeposit/simulate")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<FixedTermSimulationDto> simulateFixedTerm(@RequestBody FixedTermSimulationDto dto){
 
         FixedTermSimulationDto simulation = fixedTermDepositService.simulateFixedTermDeposit(dto);
